@@ -1,0 +1,3282 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AuraHomes | Ultra-Luxury Real Estate & Prime Global Estates</title>
+  <meta name="description" content="AuraHomes is the premier destination for private luxury real estate, trophy estates, and architectural masterworks worldwide.">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%231B4332'><path d='M12 2L2 9.5V21a1 1 0 001 1h6a1 1 0 001-1v-6h4v6a1 1 0 001 1h6a1 1 0 001-1V9.5L12 2z'/></svg>">
+
+  <!-- Google Fonts: Playfair Display & Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Font Awesome 6.5.1 -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            alabaster: {
+              DEFAULT: '#FAF8F5',
+              soft: '#F5F2EB',
+              chalk: '#F8FAFC',
+              card: '#FFFFFF'
+            },
+            obsidian: {
+              DEFAULT: '#0F172A',
+              pure: '#0B0F19',
+              caviar: '#111827',
+              slate: '#1E293B',
+              muted: '#475569'
+            },
+            champagne: {
+              light: '#DFC7A4',
+              DEFAULT: '#C5A880',
+              deep: '#B38F5E',
+              dark: '#9A7B4F'
+            },
+            emerald: {
+              DEFAULT: '#1B4332',
+              deep: '#0F291E',
+              forest: '#2D6A4F',
+              sage: '#40916C',
+              light: '#E8F3EE'
+            },
+            stone: {
+              50: '#FBF9F6',
+              100: '#F5F2EB',
+              200: '#EAE5DE',
+              300: '#D8D1C5',
+              400: '#A89F91',
+              500: '#78716C'
+            }
+          },
+          fontFamily: {
+            sans: ['Plus Jakarta Sans', 'sans-serif'],
+            serif: ['Playfair Display', 'serif']
+          },
+          boxShadow: {
+            'luxury-sm': '0 4px 20px -2px rgba(27, 40, 30, 0.05)',
+            'luxury': '0 10px 30px -5px rgba(27, 40, 30, 0.06), 0 20px 40px -15px rgba(197, 168, 128, 0.12)',
+            'luxury-hover': '0 20px 45px -8px rgba(27, 40, 30, 0.12), 0 0 20px -2px rgba(197, 168, 128, 0.35)',
+            'modal-luxury': '0 25px 60px -15px rgba(15, 23, 42, 0.35)'
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Three.js r128 & OrbitControls CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+
+  <!-- Canvas Confetti CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
+
+  <style>
+    /* Warm Luxury Scrollbar */
+    ::-webkit-scrollbar { width: 7px; }
+    ::-webkit-scrollbar-track { background: #FAF8F5; }
+    ::-webkit-scrollbar-thumb { background: #D8D1C5; border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: #C5A880; }
+
+    /* Glassmorphism Styles */
+    .glass-nav {
+      background: rgba(250, 248, 245, 0.90);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border-bottom: 1px solid rgba(197, 168, 128, 0.25);
+    }
+    .luxury-card {
+      background: #FFFFFF;
+      border: 1px solid #EAE5DE;
+      transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .luxury-card:hover {
+      transform: translateY(-6px);
+      border-color: #C5A880;
+      box-shadow: 0 20px 45px -8px rgba(27, 40, 30, 0.12), 0 0 25px -3px rgba(197, 168, 128, 0.28);
+    }
+    .glass-modal {
+      background: #FFFFFF;
+      border: 1px solid #EAE5DE;
+    }
+
+    /* Custom Luxury Range Sliders */
+    input[type=range] {
+      -webkit-appearance: none;
+      background: #EAE5DE;
+      border-radius: 9999px;
+      height: 6px;
+    }
+    input[type=range]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: #1B4332;
+      cursor: pointer;
+      box-shadow: 0 2px 8px rgba(27, 67, 50, 0.35);
+      border: 2.5px solid #FFFFFF;
+      transition: transform 0.15s ease, background-color 0.15s ease;
+    }
+    input[type=range]::-webkit-slider-thumb:hover {
+      transform: scale(1.15);
+      background: #B38F5E;
+    }
+
+    /* Micro-animations */
+    @keyframes heartBurst {
+      0% { transform: scale(1); }
+      40% { transform: scale(1.4); color: #E11D48; }
+      70% { transform: scale(0.9); }
+      100% { transform: scale(1); }
+    }
+    .heart-burst { animation: heartBurst 0.45s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+
+    @keyframes badgeBounce {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.35); }
+      100% { transform: scale(1); }
+    }
+    .badge-bounce { animation: badgeBounce 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+
+    @keyframes slideInRight {
+      from { transform: translateX(100%); opacity: 0; }
+      to { transform: translateX(0); opacity: 1; }
+    }
+    .toast-enter { animation: slideInRight 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+
+    .blueprint-bg {
+      background-color: #FAF8F5;
+      background-image: 
+        linear-gradient(rgba(197, 168, 128, 0.12) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(197, 168, 128, 0.12) 1px, transparent 1px);
+      background-size: 24px 24px;
+    }
+  </style>
+</head>
+<body class="bg-alabaster text-obsidian font-sans selection:bg-champagne/30 selection:text-emerald min-h-screen relative overflow-x-hidden antialiased">
+
+  <!-- Toast Notification Container -->
+  <div id="toast-container" class="fixed top-24 right-5 z-50 flex flex-col gap-3 pointer-events-none max-w-sm w-full"></div>
+
+  <!-- TOP DISCREET ANNOUNCEMENT BAR -->
+  <div class="bg-stone-100 border-b border-stone-200/80 py-2.5 px-4 text-xs tracking-wider text-obsidian-muted">
+    <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2">
+      <div class="flex items-center gap-4">
+        <span class="inline-flex items-center gap-1.5 text-emerald font-semibold uppercase tracking-wider text-[11px]">
+          <span class="w-2 h-2 rounded-full bg-champagne animate-pulse"></span>
+          PRIVATE CLIENT SERVICES
+        </span>
+        <span class="hidden md:inline text-stone-300">|</span>
+        <span class="hidden md:inline text-stone-600 font-medium">
+          <i class="fa-solid fa-shield-halved text-champagne-deep mr-1.5"></i> Discreet Offshore Escrow & Spatial Digital Twins
+        </span>
+      </div>
+      <div class="flex items-center gap-5 font-medium">
+        <!-- Procedural Web Audio Soundscape Toggle -->
+        <button id="soundscape-toggle-btn" class="flex items-center gap-2 px-3 py-1 rounded-full bg-white border border-stone-200 text-stone-600 hover:text-emerald text-[11px] font-bold shadow-sm transition-all" title="Toggle Procedural Oceanic & Breeze Soundscape">
+          <i id="soundscape-icon" class="fa-solid fa-volume-xmark text-stone-400"></i>
+          <span id="soundscape-label">Ambient Sound: Off</span>
+        </button>
+        <span class="text-stone-300">|</span>
+        <a href="tel:+18005552872" class="hover:text-emerald transition-colors flex items-center gap-1.5 text-obsidian font-semibold">
+          <i class="fa-solid fa-phone text-champagne-deep"></i> +1 (800) 555-AURA
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- STICKY HEADER -->
+  <header id="main-header" class="sticky top-0 z-40 w-full transition-all duration-300 glass-nav">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-20">
+        
+        <!-- LOGO -->
+        <a href="#" class="flex items-center gap-3.5 group">
+          <div class="w-11 h-11 rounded-xl bg-gradient-to-tr from-emerald to-emerald-forest flex items-center justify-center text-alabaster font-black text-xl shadow-luxury-sm group-hover:rotate-6 transition-transform">
+            <i class="fa-solid fa-gem text-champagne-light"></i>
+          </div>
+          <div>
+            <div class="flex items-center gap-1.5">
+              <span class="text-2xl font-black tracking-tight text-obsidian font-sans">AURA</span>
+              <span class="text-2xl font-light tracking-widest text-champagne-deep">HOMES</span>
+            </div>
+            <p class="text-[9px] uppercase tracking-[0.25em] text-stone-500 -mt-1 font-bold">Private Luxury Estates</p>
+          </div>
+        </a>
+
+        <!-- DESKTOP NAVIGATION -->
+        <nav class="hidden lg:flex items-center gap-7 text-sm font-semibold text-obsidian-slate">
+          <a href="#properties" class="hover:text-emerald transition-colors py-2 flex items-center gap-1">
+            <span>Estates</span>
+          </a>
+          <a href="#digital-twin-section" class="hover:text-emerald transition-colors py-2 flex items-center gap-1 text-emerald font-bold">
+            <i class="fa-solid fa-cube text-champagne-deep text-xs"></i>
+            <span>3D Digital Twin</span>
+          </a>
+          <a href="#renovation-section" class="hover:text-emerald transition-colors py-2 flex items-center gap-1">
+            <span>Renovation</span>
+          </a>
+          <a href="#forecaster-section" class="hover:text-emerald transition-colors py-2 flex items-center gap-1">
+            <span>AI Forecaster</span>
+          </a>
+          <a href="#calculator" class="hover:text-emerald transition-colors py-2 flex items-center gap-1">
+            <span>Mortgage EMI</span>
+          </a>
+          <a href="#contact" class="hover:text-emerald transition-colors py-2 flex items-center gap-1">
+            <span>Advisory</span>
+          </a>
+        </nav>
+
+        <!-- RIGHT ACTIONS: MULTI-CURRENCY SELECTOR (USD, EUR, GBP, AED, BDT) & WISHLIST -->
+        <div class="flex items-center gap-3 sm:gap-4">
+          <div class="relative">
+            <select id="currency-selector" class="bg-stone-50 hover:bg-white border border-stone-200 text-obsidian text-xs font-semibold rounded-xl px-3 py-2 pr-8 focus:outline-none focus:border-champagne-deep cursor-pointer appearance-none shadow-sm transition-colors" title="Change Global Currency">
+              <option value="USD">USD ($)</option>
+              <option value="EUR">EUR (€)</option>
+              <option value="GBP">GBP (£)</option>
+              <option value="AED">AED (د.إ)</option>
+              <option value="BDT">BDT (৳)</option>
+            </select>
+            <i class="fa-solid fa-chevron-down absolute right-2.5 top-1/2 -translate-y-1/2 text-[10px] text-stone-400 pointer-events-none"></i>
+          </div>
+
+          <!-- SAVED PROPERTIES DRAWER BUTTON -->
+          <button id="favorites-btn" class="relative bg-stone-50 hover:bg-white border border-stone-200 text-obsidian w-10 h-10 rounded-xl flex items-center justify-center transition-all group shadow-sm active:scale-95" title="Saved Estates Vault">
+            <i class="fa-solid fa-heart text-stone-400 group-hover:text-rose-500 transition-colors"></i>
+            <span id="favorites-badge" class="absolute -top-1.5 -right-1.5 w-5 h-5 rounded-full bg-emerald text-white font-bold text-[10px] flex items-center justify-center shadow-sm">0</span>
+          </button>
+
+          <!-- ADD PROPERTY BUTTON -->
+          <button id="open-add-property-modal-btn" class="hidden sm:inline-flex items-center gap-2 bg-emerald hover:bg-emerald-forest text-white font-bold px-4 py-2.5 rounded-xl text-xs uppercase tracking-wider shadow-luxury-sm hover:shadow-luxury transition-all transform active:scale-95">
+            <i class="fa-solid fa-plus text-xs text-champagne-light"></i>
+            <span>List Estate</span>
+          </button>
+
+          <!-- MOBILE MENU BUTTON -->
+          <button id="mobile-menu-toggle" class="lg:hidden text-obsidian hover:text-emerald p-2" aria-label="Toggle Menu">
+            <i class="fa-solid fa-bars text-xl"></i>
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- MOBILE NAVIGATION MENU -->
+    <div id="mobile-nav-menu" class="hidden lg:hidden bg-alabaster/98 border-b border-stone-200 px-6 py-6 space-y-4 shadow-xl">
+      <a href="#properties" class="mobile-nav-link block text-obsidian hover:text-emerald font-semibold py-1">Curated Estates</a>
+      <a href="#digital-twin-section" class="mobile-nav-link block text-emerald font-bold py-1">3D Spatial Digital Twin</a>
+      <a href="#renovation-section" class="mobile-nav-link block text-obsidian hover:text-emerald font-semibold py-1">Before & After Renovation</a>
+      <a href="#forecaster-section" class="mobile-nav-link block text-obsidian hover:text-emerald font-semibold py-1">AI Investment Forecaster</a>
+      <a href="#calculator" class="mobile-nav-link block text-obsidian hover:text-emerald font-semibold py-1">Mortgage EMI Calculator</a>
+      <a href="#contact" class="mobile-nav-link block text-obsidian hover:text-emerald font-semibold py-1">Private Client Advisory</a>
+      <div class="pt-4 border-t border-stone-200 flex flex-col gap-3">
+        <button id="mobile-add-property-btn" class="w-full inline-flex items-center justify-center gap-2 bg-emerald text-white font-bold py-3 rounded-xl text-xs uppercase tracking-wider">
+          <i class="fa-solid fa-plus text-champagne-light"></i> List Your Estate
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- HERO SECTION WITH ARCHITECTURAL WARMTH & SMART SEARCH CONSOLE -->
+  <section class="relative min-h-[88vh] flex items-center justify-center py-20 px-4 sm:px-6 lg:px-8 overflow-hidden bg-gradient-to-b from-stone-100/70 via-alabaster to-alabaster">
+    <div class="absolute inset-0 z-0 opacity-20 pointer-events-none">
+      <img src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=2400&q=85" 
+           alt="AuraHomes Architecture" 
+           class="w-full h-full object-cover object-center filter saturate-50">
+      <div class="absolute inset-0 bg-gradient-to-b from-alabaster/80 via-alabaster/95 to-alabaster"></div>
+    </div>
+
+    <div class="relative z-10 max-w-6xl mx-auto w-full text-center">
+      
+      <!-- Warm Luxury Crown Badge -->
+      <div class="inline-flex items-center gap-2.5 px-4 py-2 rounded-full border border-champagne/40 bg-white/90 backdrop-blur-md text-emerald text-xs font-bold tracking-widest uppercase mb-8 shadow-sm">
+        <i class="fa-solid fa-crown text-champagne-deep"></i>
+        <span>THE APEX OF ARCHITECTURAL LUXURY</span>
+        <span class="w-1.5 h-1.5 rounded-full bg-champagne-deep"></span>
+        <span class="text-stone-500 font-semibold">2026 GLOBAL PORTFOLIO</span>
+      </div>
+
+      <!-- Playfair Display Serif Headline -->
+      <h1 class="text-4xl sm:text-6xl lg:text-7xl font-bold tracking-tight text-obsidian font-serif max-w-5xl mx-auto leading-[1.15] mb-6">
+        Where Architectural Provenance Meets <span class="italic text-champagne-deep bg-gradient-to-r from-champagne-deep to-emerald bg-clip-text text-transparent">Unrivaled Living</span>
+      </h1>
+
+      <p class="text-base sm:text-xl text-stone-600 max-w-3xl mx-auto font-normal leading-relaxed mb-10">
+        Discreet representation for trophy compounds, waterfront sanctuaries, and sky penthouses across the world's most coveted zip codes.
+      </p>
+
+      <!-- INTERACTIVE SEARCH CONSOLE -->
+      <div class="bg-white rounded-3xl p-5 sm:p-7 shadow-luxury border border-stone-200 text-left max-w-5xl mx-auto relative z-20">
+        
+        <!-- Status Tabs (All / For Sale / For Rent) -->
+        <div class="flex items-center gap-2 mb-6 pb-4 border-b border-stone-200 overflow-x-auto">
+          <button data-status="All" class="hero-status-tab active px-5 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider transition-all bg-emerald text-white shadow-sm">
+            All Listings
+          </button>
+          <button data-status="For Sale" class="hero-status-tab px-5 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider transition-all bg-stone-100 text-obsidian hover:bg-stone-200">
+            For Sale (Acquisitions)
+          </button>
+          <button data-status="For Rent" class="hero-status-tab px-5 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider transition-all bg-stone-100 text-obsidian hover:bg-stone-200">
+            For Rent (Leases)
+          </button>
+          
+          <div class="ml-auto hidden sm:flex items-center gap-2 text-xs text-stone-500 font-medium">
+            <i class="fa-solid fa-certificate text-champagne-deep"></i>
+            <span>100% Verified Ownership & Escrow Vetted</span>
+          </div>
+        </div>
+
+        <!-- Filter Grid Inputs -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-5">
+          
+          <!-- Property Type Dropdown -->
+          <div class="space-y-1.5">
+            <label class="text-[11px] font-bold uppercase tracking-wider text-stone-500 flex items-center gap-1.5">
+              <i class="fa-solid fa-landmark text-champagne-deep"></i> Estate Style
+            </label>
+            <div class="relative">
+              <select id="hero-type-filter" class="w-full bg-stone-50 border border-stone-200 rounded-xl px-3.5 py-3 text-sm text-obsidian font-medium focus:outline-none focus:border-champagne-deep cursor-pointer appearance-none transition-colors">
+                <option value="All">All Architectural Types</option>
+                <option value="Villa">Trophy Villa</option>
+                <option value="Penthouse">Sky Penthouse</option>
+                <option value="Waterfront">Waterfront Estate</option>
+                <option value="Architectural">Modern Architectural</option>
+              </select>
+              <i class="fa-solid fa-chevron-down absolute right-3.5 top-1/2 -translate-y-1/2 text-xs text-stone-400 pointer-events-none"></i>
+            </div>
+          </div>
+
+          <!-- Location Dropdown -->
+          <div class="space-y-1.5">
+            <label class="text-[11px] font-bold uppercase tracking-wider text-stone-500 flex items-center gap-1.5">
+              <i class="fa-solid fa-location-dot text-champagne-deep"></i> Prime Destination
+            </label>
+            <div class="relative">
+              <select id="hero-location-filter" class="w-full bg-stone-50 border border-stone-200 rounded-xl px-3.5 py-3 text-sm text-obsidian font-medium focus:outline-none focus:border-champagne-deep cursor-pointer appearance-none transition-colors">
+                <option value="All">All Prime Markets</option>
+                <option value="Beverly Hills">Beverly Hills, CA</option>
+                <option value="Manhattan">Manhattan, NY</option>
+                <option value="Miami">Miami Beach, FL</option>
+                <option value="Aspen">Aspen, CO</option>
+                <option value="Dubai">Dubai, UAE</option>
+                <option value="Monaco">Monaco, French Riviera</option>
+                <option value="Hawaii">Oahu, Hawaii</option>
+                <option value="Lake Como">Lake Como, Italy</option>
+              </select>
+              <i class="fa-solid fa-chevron-down absolute right-3.5 top-1/2 -translate-y-1/2 text-xs text-stone-400 pointer-events-none"></i>
+            </div>
+          </div>
+
+          <!-- Dynamic Price Slider Control -->
+          <div class="space-y-1.5 sm:col-span-2 lg:col-span-2">
+            <div class="flex items-center justify-between">
+              <label class="text-[11px] font-bold uppercase tracking-wider text-stone-500 flex items-center gap-1.5">
+                <i class="fa-solid fa-coins text-champagne-deep"></i> <span id="price-slider-label">Max Investment Budget</span>
+              </label>
+              <span id="hero-price-display" class="text-sm font-bold text-emerald font-mono bg-stone-100 px-2.5 py-0.5 rounded-lg">$50,000,000+</span>
+            </div>
+            <div class="pt-2">
+              <input id="hero-price-slider" type="range" min="1000000" max="50000000" step="1000000" value="50000000" class="w-full">
+              <div id="price-slider-ticks" class="flex justify-between text-[10px] text-stone-400 font-mono mt-1 font-semibold">
+                <span>$1M</span>
+                <span>$15M</span>
+                <span>$30M</span>
+                <span>$50M+</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Action Row -->
+        <div class="flex flex-col sm:flex-row items-center justify-between gap-4 pt-3 border-t border-stone-100">
+          <div class="relative w-full sm:w-80">
+            <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-stone-400 text-xs"></i>
+            <input id="hero-keyword-input" type="text" placeholder="Search by name, features, views..." class="w-full bg-stone-50 border border-stone-200 rounded-xl pl-9 pr-3.5 py-2.5 text-xs text-obsidian placeholder-stone-400 font-medium focus:outline-none focus:border-champagne-deep transition-colors">
+          </div>
+
+          <div class="flex items-center gap-3 w-full sm:w-auto justify-end">
+            <button id="hero-reset-btn" class="text-xs text-stone-500 hover:text-obsidian px-3 py-2 font-semibold transition-colors flex items-center gap-1.5">
+              <i class="fa-solid fa-rotate-left"></i> Reset
+            </button>
+            <a href="#properties" id="hero-search-btn" class="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 bg-emerald hover:bg-emerald-forest text-white font-bold px-7 py-3 rounded-xl text-xs uppercase tracking-wider shadow-luxury-sm hover:shadow-luxury transition-all transform active:scale-95">
+              <span>View Matching Estates</span>
+              <span id="hero-matching-count" class="bg-champagne-light text-obsidian text-[11px] px-2 py-0.5 rounded-full font-mono font-bold">10</span>
+            </a>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ============================================================== -->
+  <!-- 2. PHOTOREALISTIC 3D ARCHITECTURAL VILLA DIGITAL TWIN           -->
+  <!-- ============================================================== -->
+  <section id="digital-twin-section" class="py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+    <div class="text-center max-w-3xl mx-auto mb-10">
+      <div class="inline-flex items-center gap-2 text-champagne-deep text-xs font-bold tracking-widest uppercase mb-2">
+        <i class="fa-solid fa-cube"></i>
+        <span>INTERACTIVE SPATIAL WEBGL TWIN</span>
+      </div>
+      <h2 class="text-3xl sm:text-4xl font-bold font-serif text-obsidian tracking-tight">
+        The Glass & Timber Sanctuary: Photorealistic L-Shaped Architectural Villa
+      </h2>
+      <p class="text-sm text-stone-600 mt-2">
+        An architecturally accurate 3D digital twin of the luxury L-shaped natural wood and steel villa featuring rich vertical timber cladding, charcoal-black composite upper suite with vertical privacy louvers, indoor-outdoor timber patio pavilion, signature central courtyard tree, and immersive blue hour twilight lighting.
+      </p>
+    </div>
+
+    <!-- 3D Canvas Container -->
+    <div class="relative bg-gradient-to-b from-stone-900 to-obsidian rounded-3xl overflow-hidden border border-stone-800 shadow-luxury h-[660px] select-none group">
+      
+      <!-- Three.js Canvas Element -->
+      <canvas id="three-villa-canvas" class="w-full h-full block cursor-grab active:cursor-grabbing"></canvas>
+
+      <!-- Atmosphere & Twilight Preset Controller (Top-Left) -->
+      <div class="absolute top-5 left-5 z-20 flex flex-col gap-2 bg-obsidian/90 backdrop-blur-md p-3.5 rounded-2xl border border-white/10 shadow-luxury max-w-xs text-white">
+        <span class="text-[10px] font-bold uppercase tracking-wider text-stone-300 flex items-center gap-1.5">
+          <i class="fa-solid fa-moon text-champagne-light"></i> Atmosphere & Twilight Presets
+        </span>
+        <div class="grid grid-cols-3 gap-1.5">
+          <button class="tw-light-btn active px-2.5 py-1.5 rounded-xl text-[11px] font-bold bg-champagne-deep text-obsidian shadow-sm transition-all text-center" data-mode="twilight">
+            Twilight Hour
+          </button>
+          <button class="tw-light-btn px-2.5 py-1.5 rounded-xl text-[11px] font-semibold bg-white/10 text-stone-300 hover:text-white transition-all text-center" data-mode="night">
+            Night Glow
+          </button>
+          <button class="tw-light-btn px-2.5 py-1.5 rounded-xl text-[11px] font-semibold bg-white/10 text-stone-300 hover:text-white transition-all text-center" data-mode="overcast">
+            Overcast
+          </button>
+        </div>
+      </div>
+
+      <!-- Real-Time Solar Sun-Path & Shadow Simulator (Top-Right) -->
+      <div class="absolute top-5 right-5 z-20 flex flex-col gap-2 bg-obsidian/90 backdrop-blur-md p-3.5 rounded-2xl border border-white/10 shadow-luxury max-w-xs w-64 text-white">
+        <div class="flex items-center justify-between text-[10px] font-bold uppercase tracking-wider text-stone-300">
+          <span><i class="fa-solid fa-clock text-champagne-light mr-1"></i> Solar Sun-Path & Shadows</span>
+          <span id="sun-time-display" class="font-mono text-champagne font-bold text-xs">19:30 (Twilight)</span>
+        </div>
+        <input id="sun-slider" type="range" min="6" max="24" step="0.5" value="19.5" class="w-full accent-champagne">
+        <div class="flex justify-between text-[9px] text-stone-400 font-mono">
+          <span>06:00 Dawn</span>
+          <span>13:00 Day</span>
+          <span>19:30 Dusk</span>
+          <span>24:00 Night</span>
+        </div>
+      </div>
+
+      <!-- 3D Spatial Feature Card (Bottom-Left) -->
+      <div id="spatial-card" class="absolute bottom-5 left-5 z-20 bg-obsidian/90 backdrop-blur-md p-4 rounded-2xl border border-white/10 shadow-luxury max-w-sm transition-all duration-300 text-white">
+        <div class="flex items-start justify-between gap-3">
+          <div>
+            <span class="text-[10px] font-bold uppercase tracking-wider text-champagne-light" id="spatial-card-tag">Hero Courtyard View</span>
+            <h4 class="text-base font-bold font-serif text-white" id="spatial-card-title">Signature L-Shaped Architecture</h4>
+            <p class="text-xs text-stone-300 mt-1 leading-relaxed" id="spatial-card-desc">
+              Showcasing the sculptural central tree, warm vertical timber facade, and seamless indoor-outdoor pavilion connection.
+            </p>
+          </div>
+          <div class="w-8 h-8 rounded-xl bg-champagne/20 text-champagne-light flex items-center justify-center shrink-0">
+            <i class="fa-solid fa-tree text-xs"></i>
+          </div>
+        </div>
+        <div class="mt-3 pt-2.5 border-t border-white/10 flex items-center justify-between text-[11px] font-mono text-stone-400">
+          <span id="spatial-card-metric">12,800 sq.ft Living • 1.2 Acre Private Grounds</span>
+          <button onclick="prefillCalculator(28500000)" class="text-champagne-light hover:underline font-bold">Calculate EMI &rarr;</button>
+        </div>
+      </div>
+
+      <!-- Camera Focus Angle Presets (Bottom-Right) -->
+      <div class="absolute bottom-5 right-5 z-20 flex flex-wrap items-center gap-1.5 bg-obsidian/90 backdrop-blur-md p-2 rounded-2xl border border-white/10 shadow-luxury">
+        <span class="text-[10px] font-bold uppercase tracking-wider text-stone-400 pl-2 pr-1">Angle:</span>
+        <button class="spatial-pin-btn active px-3 py-1.5 rounded-xl text-xs font-bold bg-champagne-deep text-obsidian shadow-sm transition-all" data-target="hero">
+          Hero Yard
+        </button>
+        <button class="spatial-pin-btn px-3 py-1.5 rounded-xl text-xs font-semibold bg-white/10 text-stone-300 hover:text-white transition-all" data-target="patio">
+          Covered Patio
+        </button>
+        <button class="spatial-pin-btn px-3 py-1.5 rounded-xl text-xs font-semibold bg-white/10 text-stone-300 hover:text-white transition-all" data-target="suite">
+          Upper Suite
+        </button>
+        <button class="spatial-pin-btn px-3 py-1.5 rounded-xl text-xs font-semibold bg-white/10 text-stone-300 hover:text-white transition-all" data-target="estate">
+          Whole Estate
+        </button>
+      </div>
+
+      <!-- Center Instruction Hint -->
+      <div id="spatial-hint" class="absolute inset-x-0 bottom-24 flex justify-center pointer-events-none transition-opacity duration-700">
+        <span class="bg-obsidian/85 text-white text-xs px-4 py-2 rounded-full backdrop-blur-md font-medium shadow-lg border border-white/10">
+          <i class="fa-solid fa-arrows-rotate mr-1.5 text-champagne-light"></i> Click & Drag to Orbit 3D Villa • Scroll to Zoom
+        </span>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ============================================================== -->
+  <!-- 1. BEFORE & AFTER RENOVATION SPLIT-SCREEN SLIDER               -->
+  <!-- DISTINCT HIGH-RESOLUTION ARCHITECTURAL TRANSFORMATION IMAGES   -->
+  <!-- ============================================================== -->
+  <section id="renovation-section" class="py-20 bg-stone-100/70 border-y border-stone-200 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-7xl mx-auto">
+      <div class="text-center max-w-3xl mx-auto mb-12">
+        <div class="inline-flex items-center gap-2 text-champagne-deep text-xs font-bold tracking-widest uppercase mb-2">
+          <i class="fa-solid fa-sliders"></i>
+          <span>ARCHITECTURAL METAMORPHOSIS</span>
+        </div>
+        <h2 class="text-3xl sm:text-4xl font-bold font-serif text-obsidian tracking-tight">
+          Before & After: Prime Renovation Studio
+        </h2>
+        <p class="text-sm text-stone-600 mt-2">
+          Drag the interactive split-screen divider to compare raw industrial bare-shell concrete framing against the finished staged luxury interior.
+        </p>
+      </div>
+
+      <!-- Split Screen Slider Box -->
+      <div class="max-w-5xl mx-auto relative rounded-3xl overflow-hidden shadow-luxury border border-stone-300 h-[480px] sm:h-[560px] select-none" id="reno-slider-container">
+        
+        <!-- AFTER IMAGE: Completed Bespoke Luxury Staged Interior (Warm Oak, Marble, Italian Designer Furniture) -->
+        <img src="https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=1600&q=80" 
+             alt="AFTER: Bespoke Architectural Completion" 
+             class="absolute inset-0 w-full h-full object-cover"
+             id="reno-after-img">
+        
+        <!-- After Label Badge -->
+        <div class="absolute top-5 right-5 z-10 bg-white/95 text-emerald backdrop-blur-md px-4 py-2 rounded-xl border border-stone-200 text-xs font-bold shadow-md flex items-center gap-2">
+          <span class="w-2 h-2 rounded-full bg-emerald"></span>
+          <span>AFTER: Bespoke Architectural Completion</span>
+        </div>
+
+        <!-- BEFORE IMAGE: Raw Bare-Shell Concrete / Under Construction (Exposed Structural Columns, Framing) -->
+        <div id="reno-before-wrapper" class="absolute inset-y-0 left-0 w-1/2 overflow-hidden z-10 border-r-2 border-white shadow-2xl">
+          <img src="https://images.unsplash.com/photo-1541888946425-d0fbb18086f6?auto=format&fit=crop&w=1600&q=80" 
+               alt="BEFORE: Raw Concrete Bare-Shell" 
+               class="absolute inset-y-0 left-0 max-w-none h-full object-cover filter contrast-110"
+               id="reno-before-img">
+          
+          <!-- Before Label Badge -->
+          <div class="absolute top-5 left-5 z-10 bg-obsidian/90 text-white backdrop-blur-md px-4 py-2 rounded-xl border border-white/20 text-xs font-bold shadow-md flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-amber-400"></span>
+            <span>BEFORE: Raw Concrete Bare-Shell</span>
+          </div>
+        </div>
+
+        <!-- Draggable Divider Handle -->
+        <div id="reno-divider" class="absolute inset-y-0 left-1/2 -ml-5 w-10 flex items-center justify-center z-20 cursor-ew-resize">
+          <div class="w-10 h-10 rounded-full bg-white text-emerald shadow-2xl border-2 border-champagne-deep flex items-center justify-center text-sm font-bold">
+            <i class="fa-solid fa-arrows-left-right text-champagne-dark"></i>
+          </div>
+        </div>
+
+      </div>
+      
+      <!-- Renovation Specifications Summary -->
+      <div class="max-w-5xl mx-auto mt-6 grid grid-cols-1 sm:grid-cols-3 gap-4 text-xs text-stone-600 font-medium">
+        <div class="bg-white p-4 rounded-2xl border border-stone-200 flex items-center gap-3 shadow-sm">
+          <div class="w-9 h-9 rounded-xl bg-champagne-light/30 text-champagne-dark flex items-center justify-center text-sm font-bold">1</div>
+          <div>
+            <div class="font-bold text-obsidian">Structural Envelope</div>
+            <div class="text-[11px] text-stone-500">Post-tensioned slabs & cantilever reinforcement</div>
+          </div>
+        </div>
+        <div class="bg-white p-4 rounded-2xl border border-stone-200 flex items-center gap-3 shadow-sm">
+          <div class="w-9 h-9 rounded-xl bg-champagne-light/30 text-champagne-dark flex items-center justify-center text-sm font-bold">2</div>
+          <div>
+            <div class="font-bold text-obsidian">Custom Millwork & Oak</div>
+            <div class="text-[11px] text-stone-500">European white oak floors & acoustic slatted panels</div>
+          </div>
+        </div>
+        <div class="bg-white p-4 rounded-2xl border border-stone-200 flex items-center gap-3 shadow-sm">
+          <div class="w-9 h-9 rounded-xl bg-champagne-light/30 text-champagne-dark flex items-center justify-center text-sm font-bold">3</div>
+          <div>
+            <div class="font-bold text-obsidian">Architectural Lighting</div>
+            <div class="text-[11px] text-stone-500">Recessed Flos illumination & automated shading</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ============================================================== -->
+  <!-- AI INVESTMENT YIELD & APPRECIATION FORECASTER                  -->
+  <!-- ============================================================== -->
+  <section id="forecaster-section" class="py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+      
+      <div class="lg:col-span-6 space-y-6">
+        <div>
+          <div class="inline-flex items-center gap-2 text-champagne-deep text-xs font-bold tracking-widest uppercase mb-2">
+            <i class="fa-solid fa-chart-line"></i>
+            <span>QUANTITATIVE WEALTH ADVISORY</span>
+          </div>
+          <h2 class="text-3xl sm:text-4xl font-bold font-serif text-obsidian tracking-tight">
+            AI Investment Yield & Capital Growth Forecaster
+          </h2>
+          <p class="text-sm text-stone-600 mt-2">
+            Model historic micro-market compounding trajectories, estimated seasonal rental yields, and projected net IRR for prime ultra-luxury portfolios.
+          </p>
+        </div>
+
+        <div class="bg-white rounded-3xl p-6 sm:p-8 space-y-5 border border-stone-200 shadow-luxury">
+          
+          <div class="space-y-1.5">
+            <label class="text-xs font-bold uppercase tracking-wider text-obsidian">Prime Metro Market</label>
+            <select id="forecast-metro" class="w-full bg-stone-50 border border-stone-200 rounded-xl px-4 py-3 text-xs text-obsidian font-semibold focus:outline-none focus:border-champagne-deep">
+              <option value="beverly-hills" data-apprec="0.068" data-yield="0.042">Beverly Hills & Bel-Air (Avg +6.8% Apprec / 4.2% Yield)</option>
+              <option value="manhattan" data-apprec="0.059" data-yield="0.048">Manhattan Sky Penthouses (Avg +5.9% Apprec / 4.8% Yield)</option>
+              <option value="dubai" data-apprec="0.094" data-yield="0.071" selected>Dubai Palm Jumeirah (Avg +9.4% Apprec / 7.1% Yield)</option>
+              <option value="monaco" data-apprec="0.078" data-yield="0.035">Monaco French Riviera (Avg +7.8% Apprec / 3.5% Yield)</option>
+              <option value="miami" data-apprec="0.081" data-yield="0.055">Miami Star Island (Avg +8.1% Apprec / 5.5% Yield)</option>
+            </select>
+          </div>
+
+          <div class="space-y-2">
+            <div class="flex justify-between items-center text-xs font-bold text-obsidian">
+              <span>Acquisition Valuation (USD Base)</span>
+              <span id="forecast-price-display" class="font-mono text-emerald font-bold">$25,000,000</span>
+            </div>
+            <input id="forecast-price-slider" type="range" min="5000000" max="60000000" step="1000000" value="25000000" class="w-full">
+          </div>
+
+          <div class="space-y-2">
+            <div class="flex justify-between items-center text-xs font-bold text-obsidian">
+              <span>Investment Holding Horizon</span>
+              <span id="forecast-years-display" class="font-mono text-emerald font-bold">10 Years</span>
+            </div>
+            <input id="forecast-years-slider" type="range" min="5" max="25" step="1" value="10" class="w-full">
+            <div class="flex justify-between text-[10px] text-stone-400 font-mono">
+              <span>5 Yrs</span>
+              <span>10 Yrs</span>
+              <span>15 Yrs</span>
+              <span>20 Yrs</span>
+              <span>25 Yrs</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="lg:col-span-6 space-y-5">
+        <div class="bg-white rounded-3xl p-6 sm:p-8 border border-stone-200 shadow-luxury relative overflow-hidden">
+          <div class="pb-6 border-b border-stone-100 flex items-center justify-between">
+            <div>
+              <span class="text-xs font-bold uppercase tracking-widest text-stone-500 block mb-1">Forecasted Asset Valuation</span>
+              <div id="forecast-future-val" class="text-3xl sm:text-4xl font-black text-emerald font-serif tracking-tight">
+                $61,391,000
+              </div>
+            </div>
+            <div class="text-right">
+              <span class="text-[10px] font-bold uppercase text-stone-400 block">Net Projected IRR</span>
+              <span id="forecast-irr-badge" class="text-xl font-bold font-mono text-champagne-deep">+145.6%</span>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-2 gap-4 my-6">
+            <div class="bg-stone-50 p-4 rounded-2xl border border-stone-100">
+              <span class="text-[10px] font-bold text-stone-500 uppercase block">Cumulative Rental Yield</span>
+              <span id="forecast-rental-cum" class="text-lg font-bold font-mono text-obsidian mt-1 block">$15,087,500</span>
+            </div>
+            <div class="bg-stone-50 p-4 rounded-2xl border border-stone-100">
+              <span class="text-[10px] font-bold text-stone-500 uppercase block">Net Capital Growth</span>
+              <span id="forecast-capital-growth" class="text-lg font-bold font-mono text-emerald mt-1 block">+$36,391,000</span>
+            </div>
+          </div>
+
+          <div class="space-y-3 pt-2">
+            <span class="text-[11px] font-bold uppercase tracking-wider text-stone-500 block">Growth Trajectory Timeline:</span>
+            <div class="space-y-2 text-xs">
+              <div>
+                <div class="flex justify-between text-[11px] mb-1 font-semibold text-stone-600">
+                  <span>Entry Valuation</span>
+                  <span id="bar-initial-label">$25.0M</span>
+                </div>
+                <div class="w-full bg-stone-100 h-3 rounded-full overflow-hidden">
+                  <div class="bg-stone-400 h-full rounded-full" style="width: 40%;"></div>
+                </div>
+              </div>
+
+              <div>
+                <div class="flex justify-between text-[11px] mb-1 font-semibold text-stone-600">
+                  <span>Projected Future Exit Valuation</span>
+                  <span id="bar-future-label" class="text-emerald font-bold">$61.4M</span>
+                </div>
+                <div class="w-full bg-stone-100 h-3 rounded-full overflow-hidden">
+                  <div class="bg-gradient-to-r from-emerald to-champagne h-full rounded-full transition-all duration-500" id="bar-future-fill" style="width: 100%;"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-6 pt-5 border-t border-stone-100 text-[11px] text-stone-500 leading-relaxed font-medium">
+            <i class="fa-solid fa-circle-info text-champagne-deep mr-1"></i> Modeled using Monte Carlo simulation algorithms incorporating verified Sotheby's, Knight Frank & Aura private index historical data.
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- DYNAMIC PROPERTY GRID SECTION -->
+  <section id="properties" class="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+    
+    <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10">
+      <div>
+        <div class="inline-flex items-center gap-2 text-champagne-deep text-xs font-bold tracking-widest uppercase mb-2">
+          <i class="fa-solid fa-gem text-xs"></i>
+          <span>CURATED GLOBAL INVENTORY</span>
+        </div>
+        <h2 class="text-3xl sm:text-4xl font-bold font-serif text-obsidian tracking-tight">
+          Featured Architectural Masterpieces
+        </h2>
+        <p class="text-sm text-stone-600 mt-1">
+          Handpicked estates vetted by our international acquisitions committee and architectural historians.
+        </p>
+      </div>
+
+      <div class="flex flex-wrap items-center gap-3">
+        <div class="flex items-center bg-stone-100 border border-stone-200 rounded-xl p-1 text-xs">
+          <button data-beds="All" class="bed-filter-btn active px-3 py-1.5 rounded-lg font-bold text-white bg-emerald transition-all shadow-sm">All Beds</button>
+          <button data-beds="4" class="bed-filter-btn px-3 py-1.5 rounded-lg font-semibold text-stone-600 hover:text-obsidian transition-all">4+ Beds</button>
+          <button data-beds="6" class="bed-filter-btn px-3 py-1.5 rounded-lg font-semibold text-stone-600 hover:text-obsidian transition-all">6+ Beds</button>
+        </div>
+
+        <div class="relative">
+          <select id="property-sort-by" class="bg-stone-50 hover:bg-white border border-stone-200 text-obsidian text-xs font-semibold rounded-xl px-3 py-2 pr-8 focus:outline-none focus:border-champagne-deep cursor-pointer appearance-none shadow-sm transition-colors">
+            <option value="featured">Sort: Featured First</option>
+            <option value="price-asc">Price: Low to High</option>
+            <option value="price-desc">Price: High to Low</option>
+            <option value="sqft-desc">Size: Largest Interior SqFt</option>
+          </select>
+          <i class="fa-solid fa-sort absolute right-3 top-1/2 -translate-y-1/2 text-[10px] text-stone-400 pointer-events-none"></i>
+        </div>
+
+        <span id="results-count-badge" class="text-xs text-stone-600 font-mono bg-stone-100 border border-stone-200 px-3 py-2 rounded-xl font-semibold">
+          Showing <span id="current-visible-count" class="text-emerald font-bold">10</span> of <span id="total-count">10</span>
+        </span>
+      </div>
+    </div>
+
+    <!-- Active Filter Chips -->
+    <div id="active-filter-chips" class="flex flex-wrap items-center gap-2 mb-8 hidden">
+      <span class="text-xs text-stone-500 font-semibold">Active Filters:</span>
+      <div id="filter-chips-container" class="flex flex-wrap items-center gap-2"></div>
+      <button id="clear-all-chips-btn" class="text-xs text-emerald font-bold hover:underline ml-2">Clear All</button>
+    </div>
+
+    <!-- PROPERTY GRID -->
+    <div id="property-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"></div>
+
+    <!-- Empty State -->
+    <div id="empty-state" class="hidden text-center py-20 bg-stone-100/70 rounded-3xl border border-stone-200 p-8 max-w-xl mx-auto">
+      <div class="w-16 h-16 rounded-2xl bg-white shadow-sm flex items-center justify-center text-stone-400 text-2xl mx-auto mb-4 border border-stone-200">
+        <i class="fa-solid fa-magnifying-glass"></i>
+      </div>
+      <h3 class="text-xl font-bold font-serif text-obsidian mb-2">No Matching Estates Found</h3>
+      <p class="text-sm text-stone-600 mb-6">We couldn't find any properties matching your current filter criteria.</p>
+      <button id="reset-empty-filters-btn" class="bg-emerald text-white font-bold px-6 py-2.5 rounded-xl text-xs uppercase tracking-wider hover:bg-emerald-forest transition-all shadow-sm">
+        Reset All Filters
+      </button>
+    </div>
+
+  </section>
+
+  <!-- INTERACTIVE MORTGAGE / EMI CALCULATOR SECTION -->
+  <section id="calculator" class="py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+      
+      <!-- Controls -->
+      <div class="lg:col-span-7 space-y-8">
+        <div>
+          <div class="inline-flex items-center gap-2 text-champagne-deep text-xs font-bold tracking-widest uppercase mb-2">
+            <i class="fa-solid fa-calculator"></i>
+            <span>FINANCIAL ARCHITECTURE</span>
+          </div>
+          <h2 class="text-3xl sm:text-4xl font-bold font-serif text-obsidian tracking-tight">
+            Mortgage & Financing Architecture
+          </h2>
+          <p class="text-sm text-stone-600 mt-2">
+            Model cash flows, interest trajectories, and carrying costs synchronized with your selected global currency.
+          </p>
+        </div>
+
+        <div class="space-y-2.5">
+          <label class="text-xs font-bold uppercase tracking-wider text-stone-500">Select Example Acquisition Tier:</label>
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+            <button class="calc-preset-btn bg-white hover:bg-stone-50 border border-stone-200 rounded-2xl p-3 text-xs text-obsidian transition-all text-center shadow-sm hover:border-champagne-deep" data-price="3500000">
+              <span class="block font-bold text-emerald font-mono text-sm calc-preset-display">$3.5M</span>
+              <span class="text-[10px] text-stone-500 font-semibold uppercase">Sky Loft</span>
+            </button>
+            <button class="calc-preset-btn bg-white hover:bg-stone-50 border border-stone-200 rounded-2xl p-3 text-xs text-obsidian transition-all text-center shadow-sm hover:border-champagne-deep" data-price="12850000">
+              <span class="block font-bold text-emerald font-mono text-sm calc-preset-display">$12.85M</span>
+              <span class="text-[10px] text-stone-500 font-semibold uppercase">Modern Villa</span>
+            </button>
+            <button class="calc-preset-btn bg-white hover:bg-stone-50 border border-stone-200 rounded-2xl p-3 text-xs text-obsidian transition-all text-center shadow-sm hover:border-champagne-deep" data-price="24900000">
+              <span class="block font-bold text-emerald font-mono text-sm calc-preset-display">$24.9M</span>
+              <span class="text-[10px] text-stone-500 font-semibold uppercase">Park Penthouse</span>
+            </button>
+            <button class="calc-preset-btn bg-white hover:bg-stone-50 border border-stone-200 rounded-2xl p-3 text-xs text-obsidian transition-all text-center shadow-sm hover:border-champagne-deep" data-price="38500000">
+              <span class="block font-bold text-emerald font-mono text-sm calc-preset-display">$38.5M</span>
+              <span class="text-[10px] text-stone-500 font-semibold uppercase">Trophy Estate</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="bg-white rounded-3xl p-6 sm:p-8 space-y-6 border border-stone-200 shadow-luxury">
+          
+          <div class="space-y-2">
+            <div class="flex justify-between items-center">
+              <label for="calc-price-input" class="text-xs font-bold uppercase tracking-wider text-obsidian">Property Valuation</label>
+              <div class="relative">
+                <span id="calc-currency-prefix" class="absolute left-3 top-1/2 -translate-y-1/2 text-stone-400 font-mono text-sm font-bold">$</span>
+                <input id="calc-price-input" type="text" value="12,850,000" class="bg-stone-50 border border-stone-200 rounded-xl pl-8 pr-3 py-1.5 text-right font-mono text-emerald font-bold text-sm w-44 focus:outline-none focus:border-champagne-deep">
+              </div>
+            </div>
+            <input id="calc-price-slider" type="range" min="1000000" max="60000000" step="250000" value="12850000" class="w-full">
+            <div class="flex justify-between text-[10px] text-stone-400 font-mono font-semibold">
+              <span id="calc-slider-min">$1M</span>
+              <span id="calc-slider-mid1">$20M</span>
+              <span id="calc-slider-mid2">$40M</span>
+              <span id="calc-slider-max">$60M</span>
+            </div>
+          </div>
+
+          <div class="space-y-2">
+            <div class="flex justify-between items-center">
+              <div class="flex items-center gap-2">
+                <label class="text-xs font-bold uppercase tracking-wider text-obsidian">Down Payment</label>
+                <span id="calc-down-percent-badge" class="bg-champagne/20 text-champagne-dark text-[11px] font-bold px-2 py-0.5 rounded-md font-mono">20%</span>
+              </div>
+              <span id="calc-down-amount-display" class="font-mono text-emerald font-bold text-sm">$2,570,000</span>
+            </div>
+            <input id="calc-down-slider" type="range" min="10" max="60" step="5" value="20" class="w-full">
+            <div class="flex justify-between text-[10px] text-stone-400 font-mono font-semibold">
+              <span>10% (Flexible)</span>
+              <span>20% (Standard)</span>
+              <span>40% (Preferred)</span>
+              <span>60% (Ultra-Discreet)</span>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 pt-2">
+            <div class="space-y-2">
+              <label class="text-xs font-bold uppercase tracking-wider text-obsidian">Loan Term</label>
+              <div class="grid grid-cols-3 gap-2">
+                <button data-term="15" class="calc-term-btn py-2 text-xs font-bold rounded-xl border border-stone-200 bg-stone-50 text-stone-600 hover:text-obsidian transition-all">15 Yrs</button>
+                <button data-term="20" class="calc-term-btn py-2 text-xs font-bold rounded-xl border border-stone-200 bg-stone-50 text-stone-600 hover:text-obsidian transition-all">20 Yrs</button>
+                <button data-term="30" class="calc-term-btn active py-2 text-xs font-bold rounded-xl border border-emerald bg-emerald text-white shadow-sm transition-all">30 Yrs</button>
+              </div>
+            </div>
+
+            <div class="space-y-2">
+              <div class="flex justify-between items-center">
+                <label class="text-xs font-bold uppercase tracking-wider text-obsidian">Private Client Rate</label>
+                <span id="calc-rate-display" class="font-mono text-emerald font-bold text-sm">6.25%</span>
+              </div>
+              <input id="calc-rate-slider" type="range" min="3.0" max="10.0" step="0.05" value="6.25" class="w-full">
+              <div class="flex justify-between text-[10px] text-stone-400 font-mono font-semibold">
+                <span>3.0%</span>
+                <span>6.25%</span>
+                <span>10.0%</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+      <div class="lg:col-span-5 sticky top-28">
+        <div class="bg-white rounded-3xl p-6 sm:p-8 border border-stone-200 shadow-luxury relative overflow-hidden">
+          
+          <div class="text-center pb-6 border-b border-stone-100">
+            <span class="text-xs font-bold uppercase tracking-widest text-stone-500 block mb-1">Estimated Monthly Outlay</span>
+            <div id="calc-total-monthly" class="text-4xl sm:text-5xl font-black text-emerald font-serif tracking-tight">$78,924</div>
+            <span class="text-xs text-stone-500 mt-1 block font-medium">Principal, Interest, Escrow & Carry</span>
+          </div>
+
+          <div class="py-6 flex flex-col items-center">
+            <div class="relative w-44 h-44 flex items-center justify-center">
+              <svg class="w-full h-full -rotate-90" viewBox="0 0 100 100">
+                <circle cx="50" cy="50" r="40" stroke="#F5F2EB" stroke-width="12" fill="transparent"/>
+                <circle id="donut-principal" cx="50" cy="50" r="40" stroke="#1B4332" stroke-width="12" fill="transparent" stroke-dasharray="251.2" stroke-dashoffset="65" stroke-linecap="round" class="transition-all duration-500"/>
+                <circle id="donut-tax" cx="50" cy="50" r="40" stroke="#C5A880" stroke-width="12" fill="transparent" stroke-dasharray="251.2" stroke-dashoffset="210" class="transition-all duration-500"/>
+                <circle id="donut-other" cx="50" cy="50" r="40" stroke="#40916C" stroke-width="12" fill="transparent" stroke-dasharray="251.2" stroke-dashoffset="235" class="transition-all duration-500"/>
+              </svg>
+              <div class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
+                <i class="fa-solid fa-house-chimney text-emerald text-xl mb-1"></i>
+                <span class="text-[10px] text-stone-500 uppercase tracking-widest font-bold">Aura EMI</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="space-y-3 text-xs">
+            <div class="flex items-center justify-between p-3 rounded-2xl bg-stone-50 border border-stone-100">
+              <div class="flex items-center gap-2.5">
+                <span class="w-3 h-3 rounded-full bg-emerald"></span>
+                <span class="text-obsidian font-semibold">Principal & Interest</span>
+              </div>
+              <span id="breakdown-pi" class="font-mono font-bold text-obsidian">$63,224 /mo</span>
+            </div>
+
+            <div class="flex items-center justify-between p-3 rounded-2xl bg-stone-50 border border-stone-100">
+              <div class="flex items-center gap-2.5">
+                <span class="w-3 h-3 rounded-full bg-champagne"></span>
+                <span class="text-obsidian font-semibold">Property Taxes (Est.)</span>
+              </div>
+              <span id="breakdown-tax" class="font-mono font-bold text-obsidian">$12,000 /mo</span>
+            </div>
+
+            <div class="flex items-center justify-between p-3 rounded-2xl bg-stone-50 border border-stone-100">
+              <div class="flex items-center gap-2.5">
+                <span class="w-3 h-3 rounded-full bg-emerald-sage"></span>
+                <span class="text-obsidian font-semibold">Hazard Insurance & HOA</span>
+              </div>
+              <span id="breakdown-insurance" class="font-mono font-bold text-obsidian">$3,700 /mo</span>
+            </div>
+          </div>
+
+          <div class="mt-6 pt-5 border-t border-stone-100 grid grid-cols-2 gap-4 text-center">
+            <div class="bg-stone-50 p-3 rounded-2xl border border-stone-100">
+              <span class="text-[10px] text-stone-500 block uppercase font-bold">Net Financing</span>
+              <span id="summary-loan-amount" class="text-xs font-mono font-bold text-obsidian">$10,280,000</span>
+            </div>
+            <div class="bg-stone-50 p-3 rounded-2xl border border-stone-100">
+              <span class="text-[10px] text-stone-500 block uppercase font-bold">Total Interest</span>
+              <span id="summary-total-interest" class="text-xs font-mono font-bold text-obsidian">$12,480,640</span>
+            </div>
+          </div>
+
+          <div class="mt-6">
+            <a href="#contact" class="w-full inline-flex items-center justify-center gap-2 bg-emerald hover:bg-emerald-forest text-white font-bold py-3.5 px-4 rounded-xl text-xs uppercase tracking-wider shadow-luxury-sm hover:shadow-luxury transition-all text-center">
+              <i class="fa-solid fa-file-signature text-champagne-light"></i>
+              <span>Request Private Banking Pre-Approval</span>
+            </a>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- LEAD CAPTURE & PRIVATE ADVISORY CONTACT SECTION -->
+  <section id="contact" class="py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+    <div class="bg-white rounded-3xl p-8 sm:p-12 border border-stone-200 shadow-luxury relative overflow-hidden">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+        
+        <div class="lg:col-span-5 space-y-6">
+          <div class="inline-flex items-center gap-2 text-champagne-deep text-xs font-bold tracking-widest uppercase">
+            <i class="fa-solid fa-lock text-xs"></i>
+            <span>DISCREET PORTFOLIO INQUIRY</span>
+          </div>
+          <h2 class="text-3xl sm:text-4xl font-bold font-serif text-obsidian tracking-tight">
+            Initiate a Confidential Consultation
+          </h2>
+          <p class="text-sm text-stone-600 leading-relaxed font-normal">
+            Whether seeking to discreetly divest an architectural masterpiece or acquire an unlisted sanctuary, our managing partners provide personalized representation.
+          </p>
+
+          <div class="space-y-4 pt-4 border-t border-stone-100 text-xs font-medium">
+            <div class="flex items-center gap-3 text-stone-700">
+              <div class="w-8 h-8 rounded-xl bg-stone-100 flex items-center justify-center text-emerald">
+                <i class="fa-solid fa-location-dot"></i>
+              </div>
+              <span>9601 Wilshire Blvd, Suite 1200, Beverly Hills, CA 90210</span>
+            </div>
+            <div class="flex items-center gap-3 text-stone-700">
+              <div class="w-8 h-8 rounded-xl bg-stone-100 flex items-center justify-center text-emerald">
+                <i class="fa-solid fa-phone"></i>
+              </div>
+              <span>Direct Concierge: +1 (800) 555-2872 (24/7 VIP Line)</span>
+            </div>
+            <div class="flex items-center gap-3 text-stone-700">
+              <div class="w-8 h-8 rounded-xl bg-stone-100 flex items-center justify-center text-emerald">
+                <i class="fa-solid fa-envelope"></i>
+              </div>
+              <span>private-client@aurahomes.luxury</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="lg:col-span-7">
+          <form id="lead-capture-form" class="space-y-4 bg-stone-50/70 p-6 sm:p-8 rounded-3xl border border-stone-200">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label class="block text-xs font-bold uppercase tracking-wider text-obsidian mb-1.5">Full Legal Name *</label>
+                <input type="text" required placeholder="e.g. Lord Alexander Vance" class="w-full bg-white border border-stone-200 rounded-xl px-4 py-3 text-xs text-obsidian font-medium focus:outline-none focus:border-champagne-deep">
+              </div>
+              <div>
+                <label class="block text-xs font-bold uppercase tracking-wider text-obsidian mb-1.5">Direct Email Address *</label>
+                <input type="email" required placeholder="principal@familyoffice.com" class="w-full bg-white border border-stone-200 rounded-xl px-4 py-3 text-xs text-obsidian font-medium focus:outline-none focus:border-champagne-deep">
+              </div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label class="block text-xs font-bold uppercase tracking-wider text-obsidian mb-1.5">Direct Phone / Signal</label>
+                <input type="tel" placeholder="+1 (310) 555-0199" class="w-full bg-white border border-stone-200 rounded-xl px-4 py-3 text-xs text-obsidian font-medium focus:outline-none focus:border-champagne-deep">
+              </div>
+              <div>
+                <label class="block text-xs font-bold uppercase tracking-wider text-obsidian mb-1.5">Inquiry Type</label>
+                <select class="w-full bg-white border border-stone-200 rounded-xl px-4 py-3 text-xs text-obsidian font-semibold focus:outline-none focus:border-champagne-deep">
+                  <option value="acquisition">Discreet Acquisition / Purchase</option>
+                  <option value="divestment">Private Sale / Off-Market Listing</option>
+                  <option value="wealth">Private Wealth & Mortgage Structuring</option>
+                  <option value="digital-twin">3D Digital Twin Commission</option>
+                </select>
+              </div>
+            </div>
+
+            <div>
+              <label class="block text-xs font-bold uppercase tracking-wider text-obsidian mb-1.5">Specific Requirements & Architectural Criteria</label>
+              <textarea rows="3" placeholder="Tell us about desired views, helipad specifications, lot acreage, or privacy expectations..." class="w-full bg-white border border-stone-200 rounded-xl px-4 py-3 text-xs text-obsidian font-medium focus:outline-none focus:border-champagne-deep"></textarea>
+            </div>
+
+            <div class="pt-2">
+              <button type="submit" class="w-full inline-flex items-center justify-center gap-2 bg-emerald hover:bg-emerald-forest text-white font-bold py-3.5 px-6 rounded-xl text-xs uppercase tracking-wider shadow-luxury-sm hover:shadow-luxury transition-all transform active:scale-95">
+                <i class="fa-solid fa-paper-plane text-champagne-light"></i>
+                <span>Transmit Confidential Advisory Request</span>
+              </button>
+            </div>
+          </form>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- LUXURY FOOTER -->
+  <footer class="bg-stone-100 border-t border-stone-200 pt-16 pb-12 px-4 sm:px-6 lg:px-8 text-xs text-stone-600">
+    <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div class="flex items-center gap-3">
+        <div class="w-9 h-9 rounded-xl bg-emerald text-white flex items-center justify-center font-bold">
+          <i class="fa-solid fa-gem text-champagne-light"></i>
+        </div>
+        <span class="font-bold text-obsidian text-sm font-serif">AuraHomes International Inc.</span>
+        <span class="text-stone-400">|</span>
+        <span class="text-stone-500">&copy; 2026 Equal Housing Opportunity.</span>
+      </div>
+      <div class="flex items-center gap-6 font-medium text-stone-500">
+        <a href="#digital-twin-section" class="hover:text-obsidian">3D WebGL Twin</a>
+        <a href="#renovation-section" class="hover:text-obsidian">Renovation</a>
+        <a href="#properties" class="hover:text-obsidian">Portfolio</a>
+        <a href="#calculator" class="hover:text-obsidian">Mortgage EMI</a>
+        <a href="#contact" class="hover:text-obsidian">Confidential Advisory</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ============================================================== -->
+  <!-- MODAL: INTERACTIVE PROPERTY DETAILS MODAL (DUAL TABS)          -->
+  <!-- ============================================================== -->
+  <div id="property-modal" class="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 hidden overflow-y-auto bg-obsidian/60 backdrop-blur-md">
+    <div class="glass-modal w-full max-w-5xl rounded-3xl overflow-hidden shadow-modal-luxury my-auto relative max-h-[92vh] flex flex-col">
+      
+      <div class="flex items-center justify-between p-5 sm:px-8 border-b border-stone-200 bg-white/95 z-10 sticky top-0">
+        <div class="flex items-center gap-3">
+          <span id="modal-status-badge" class="px-3 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider bg-emerald-light text-emerald border border-emerald/20">For Sale</span>
+          <span id="modal-type-badge" class="px-3 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider bg-stone-100 text-obsidian">Trophy Villa</span>
+        </div>
+
+        <div class="flex items-center gap-2">
+          <button id="modal-favorite-toggle" class="w-9 h-9 rounded-xl bg-stone-100 hover:bg-stone-200 flex items-center justify-center text-stone-500 hover:text-rose-500 transition-colors">
+            <i class="fa-regular fa-heart"></i>
+          </button>
+          <button id="close-property-modal" class="w-9 h-9 rounded-xl bg-stone-100 hover:bg-stone-200 text-stone-600 flex items-center justify-center transition-colors">
+            <i class="fa-solid fa-xmark text-sm"></i>
+          </button>
+        </div>
+      </div>
+
+      <div class="overflow-y-auto p-5 sm:p-8 space-y-8 flex-1 bg-white">
+        
+        <div class="flex items-center justify-between border-b border-stone-200 pb-3">
+          <div class="flex items-center gap-2">
+            <button id="modal-tab-gallery" class="px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-wider transition-all bg-emerald text-white shadow-sm flex items-center gap-2">
+              <i class="fa-solid fa-images"></i>
+              <span>Gallery View</span>
+            </button>
+            <button id="modal-tab-floorplan" class="px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-wider transition-all bg-stone-100 text-stone-600 hover:bg-stone-200 flex items-center gap-2">
+              <i class="fa-solid fa-compass-drafting text-champagne-deep"></i>
+              <span>Architectural Floor Plan</span>
+            </button>
+          </div>
+
+          <div class="text-right">
+            <span id="modal-property-price" class="text-2xl sm:text-3xl font-extrabold text-emerald font-mono tracking-tight">$38,500,000</span>
+          </div>
+        </div>
+
+        <!-- SECTION 1: GALLERY VIEW -->
+        <div id="modal-view-gallery" class="space-y-4">
+          <div class="relative h-72 sm:h-96 md:h-[420px] rounded-2xl overflow-hidden border border-stone-200 shadow-luxury group">
+            <img id="modal-gallery-main" src="" alt="Property Main" class="w-full h-full object-cover">
+            <div class="absolute inset-0 bg-gradient-to-t from-obsidian/80 via-transparent to-transparent pointer-events-none"></div>
+            <div class="absolute bottom-5 left-5 right-5 pointer-events-none">
+              <p id="modal-property-location" class="text-xs font-bold text-champagne-light uppercase tracking-widest"></p>
+              <h3 id="modal-property-title" class="text-2xl sm:text-3xl font-bold font-serif text-white tracking-tight"></h3>
+            </div>
+          </div>
+          <div id="modal-thumbnails" class="grid grid-cols-4 gap-3 mt-3"></div>
+        </div>
+
+        <!-- SECTION 2: INTERACTIVE FLOOR PLAN VIEW -->
+        <div id="modal-view-floorplan" class="hidden space-y-6">
+          <div class="flex flex-wrap items-center justify-between gap-4 p-4 rounded-2xl bg-stone-100 border border-stone-200">
+            <div class="flex items-center gap-2">
+              <span class="text-xs font-bold uppercase tracking-wider text-stone-500 mr-2">Level:</span>
+              <button class="floor-level-btn active px-3 py-1.5 rounded-xl text-xs font-bold bg-emerald text-white shadow-sm" data-level="1">
+                Level 01 (Grand Salons)
+              </button>
+              <button class="floor-level-btn px-3 py-1.5 rounded-xl text-xs font-semibold bg-white text-stone-600 hover:text-obsidian border border-stone-200" data-level="2">
+                Level 02 (Primary Suites)
+              </button>
+              <button class="floor-level-btn px-3 py-1.5 rounded-xl text-xs font-semibold bg-white text-stone-600 hover:text-obsidian border border-stone-200" data-level="3">
+                Level -01 (Subterranean Spa)
+              </button>
+            </div>
+            <span class="text-xs text-stone-600 font-mono font-semibold">Scale: 1/8" = 1'-0" Verified CAD</span>
+          </div>
+
+          <div class="relative blueprint-bg rounded-3xl p-6 sm:p-10 border-2 border-stone-300 min-h-[380px] flex flex-col justify-between overflow-hidden shadow-inner">
+            <div class="border-l-4 border-emerald pl-3 mb-4">
+              <span class="text-[10px] font-bold text-champagne-deep uppercase tracking-widest block">ARCHITECTURAL SCHEMATIC DRAWING</span>
+              <h4 id="floorplan-active-title" class="text-base font-bold font-serif text-obsidian">Level 01: Grand Hall, Salons, Chef Kitchen & Grounds</h4>
+              <p id="floorplan-active-desc" class="text-xs text-stone-500 font-mono mt-0.5">Total Interior Floor Area: 9,200 sq.ft • Covered Verandas: 3,400 sq.ft</p>
+            </div>
+
+            <svg viewBox="0 0 800 320" class="w-full h-auto drop-shadow-sm my-2">
+              <rect x="20" y="20" width="760" height="280" fill="none" stroke="#78716C" stroke-width="2" stroke-dasharray="6,4"/>
+              
+              <g class="cursor-pointer group" onclick="selectRoomHotspot('Great Salon & Promenade', '2,400 sq.ft • 14ft Honed Limestone Coffered Ceilings • Automated Glass Pocket Wall')">
+                <rect x="40" y="40" width="340" height="150" fill="rgba(27,67,50,0.06)" stroke="#1B4332" stroke-width="2" class="group-hover:fill-emerald/15 transition-all"/>
+                <text x="210" y="115" text-anchor="middle" fill="#1B4332" font-family="'Playfair Display', serif" font-weight="bold" font-size="16">Great Salon & Promenade</text>
+                <text x="210" y="135" text-anchor="middle" fill="#64748B" font-family="monospace" font-size="11">50' x 48' (2,400 sq.ft)</text>
+              </g>
+
+              <g class="cursor-pointer group" onclick="selectRoomHotspot('Commercial Valcucine Chef Kitchen', '950 sq.ft • Calacatta Borghini Marble Waterfall Island')">
+                <rect x="400" y="40" width="360" height="150" fill="rgba(197,168,128,0.08)" stroke="#B38F5E" stroke-width="2" class="group-hover:fill-champagne/20 transition-all"/>
+                <text x="580" y="115" text-anchor="middle" fill="#9A7B4F" font-family="'Playfair Display', serif" font-weight="bold" font-size="16">Chef Kitchen & Butler Pantry</text>
+                <text x="580" y="135" text-anchor="middle" fill="#64748B" font-family="monospace" font-size="11">38' x 25' (950 sq.ft)</text>
+              </g>
+
+              <g class="cursor-pointer group" onclick="selectRoomHotspot('Cantilevered Pool & Sun Terrace', '3,400 sq.ft Exterior Deck • 110ft Heated Zero-Edge Basin')">
+                <rect x="40" y="210" width="720" height="70" fill="rgba(64,145,108,0.08)" stroke="#40916C" stroke-width="2" class="group-hover:fill-emerald-sage/20 transition-all"/>
+                <text x="400" y="250" text-anchor="middle" fill="#2D6A4F" font-family="'Playfair Display', serif" font-weight="bold" font-size="15">Cantilevered 110ft Zero-Edge Infinity Basin & Sun Loggia</text>
+              </g>
+            </svg>
+
+            <div id="room-inspector-card" class="bg-white/95 rounded-2xl p-4 border border-stone-200 shadow-sm flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 mt-4">
+              <div>
+                <span class="text-[10px] font-bold text-champagne-deep uppercase tracking-wider block">Space Specification:</span>
+                <h5 id="inspector-room-name" class="text-sm font-bold text-obsidian font-serif">Great Salon & Promenade</h5>
+                <p id="inspector-room-specs" class="text-xs text-stone-600 mt-0.5">2,400 sq.ft • 14ft Honed Limestone Coffered Ceilings • Automated Glass Pocket Wall</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Specs Badge Grid -->
+        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-3">
+          <div class="bg-stone-50 border border-stone-200 rounded-2xl p-3 text-center">
+            <i class="fa-solid fa-bed text-champagne-deep mb-1 block"></i>
+            <span class="text-[10px] text-stone-500 uppercase tracking-wider font-semibold block">Bedrooms</span>
+            <span id="modal-spec-beds" class="text-sm font-bold text-obsidian font-mono"></span>
+          </div>
+          <div class="bg-stone-50 border border-stone-200 rounded-2xl p-3 text-center">
+            <i class="fa-solid fa-bath text-champagne-deep mb-1 block"></i>
+            <span class="text-[10px] text-stone-500 uppercase tracking-wider font-semibold block">Bathrooms</span>
+            <span id="modal-spec-baths" class="text-sm font-bold text-obsidian font-mono"></span>
+          </div>
+          <div class="bg-stone-50 border border-stone-200 rounded-2xl p-3 text-center">
+            <i class="fa-solid fa-ruler-combined text-champagne-deep mb-1 block"></i>
+            <span class="text-[10px] text-stone-500 uppercase tracking-wider font-semibold block">Living Area</span>
+            <span id="modal-spec-sqft" class="text-sm font-bold text-obsidian font-mono"></span>
+          </div>
+          <div class="bg-stone-50 border border-stone-200 rounded-2xl p-3 text-center">
+            <i class="fa-solid fa-tree text-champagne-deep mb-1 block"></i>
+            <span class="text-[10px] text-stone-500 uppercase tracking-wider font-semibold block">Lot Grounds</span>
+            <span id="modal-spec-lot" class="text-sm font-bold text-obsidian font-mono"></span>
+          </div>
+          <div class="bg-stone-50 border border-stone-200 rounded-2xl p-3 text-center">
+            <i class="fa-solid fa-warehouse text-champagne-deep mb-1 block"></i>
+            <span class="text-[10px] text-stone-500 uppercase tracking-wider font-semibold block">Garage Gallery</span>
+            <span id="modal-spec-garage" class="text-sm font-bold text-obsidian font-mono"></span>
+          </div>
+          <div class="bg-stone-50 border border-stone-200 rounded-2xl p-3 text-center">
+            <i class="fa-solid fa-calendar-check text-champagne-deep mb-1 block"></i>
+            <span class="text-[10px] text-stone-500 uppercase tracking-wider font-semibold block">Year Built</span>
+            <span id="modal-spec-year" class="text-sm font-bold text-obsidian font-mono"></span>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+          <div class="lg:col-span-7 space-y-5">
+            <h4 class="text-xs font-bold uppercase tracking-wider text-emerald">Architectural Narrative</h4>
+            <p id="modal-property-desc" class="text-xs text-stone-600 leading-relaxed"></p>
+            <div id="modal-amenities-list" class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 pt-2"></div>
+          </div>
+
+          <div class="lg:col-span-5 space-y-4">
+            <form id="modal-booking-form" class="bg-stone-50 border border-stone-200 rounded-3xl p-5 space-y-3 shadow-sm">
+              <h5 class="text-xs font-bold uppercase tracking-wider text-obsidian flex items-center gap-2">
+                <i class="fa-solid fa-calendar-day text-champagne-deep"></i> Request Private Walkthrough
+              </h5>
+              <div>
+                <label class="block text-[10px] text-stone-500 font-bold uppercase mb-1">Preferred Date</label>
+                <input type="date" required class="w-full bg-white border border-stone-200 rounded-xl px-3 py-2 text-xs text-obsidian font-semibold focus:outline-none focus:border-champagne-deep">
+              </div>
+              <div>
+                <label class="block text-[10px] text-stone-500 font-bold uppercase mb-1">Principal Legal Name</label>
+                <input type="text" required placeholder="Full Name" class="w-full bg-white border border-stone-200 rounded-xl px-3 py-2 text-xs text-obsidian font-medium focus:outline-none focus:border-champagne-deep">
+              </div>
+              <div>
+                <label class="block text-[10px] text-stone-500 font-bold uppercase mb-1">Contact Phone</label>
+                <input type="tel" required placeholder="+1 (310) 555-0199" class="w-full bg-white border border-stone-200 rounded-xl px-3 py-2 text-xs text-obsidian font-medium focus:outline-none focus:border-champagne-deep">
+              </div>
+              <button type="submit" class="w-full bg-emerald hover:bg-emerald-forest text-white font-bold py-3 rounded-xl text-xs uppercase tracking-wider shadow-sm transition-all mt-2">
+                Confirm VIP Showing Request
+              </button>
+            </form>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+  <!-- DRAWER: SAVED FAVORITES / VAULT DRAWER -->
+  <div id="favorites-drawer" class="fixed inset-y-0 right-0 z-50 w-full max-w-md bg-white border-l border-stone-200 shadow-2xl transform translate-x-full transition-transform duration-300 flex flex-col">
+    <div class="p-6 border-b border-stone-200 flex items-center justify-between bg-stone-50">
+      <div class="flex items-center gap-2.5">
+        <div class="w-8 h-8 rounded-xl bg-rose-50 text-rose-600 flex items-center justify-center text-sm shadow-sm border border-rose-100">
+          <i class="fa-solid fa-heart"></i>
+        </div>
+        <div>
+          <h3 class="text-base font-bold font-serif text-obsidian">Your Private Vault</h3>
+          <p class="text-[11px] text-stone-500 font-medium">Confidential bookmarked estates</p>
+        </div>
+      </div>
+      <button id="close-favorites-drawer" class="w-8 h-8 rounded-xl bg-white border border-stone-200 hover:bg-stone-100 flex items-center justify-center text-stone-500 transition-colors">
+        <i class="fa-solid fa-xmark text-sm"></i>
+      </button>
+    </div>
+
+    <div id="favorites-list" class="overflow-y-auto p-6 space-y-4 flex-1 bg-white"></div>
+
+    <div class="p-6 border-t border-stone-200 bg-stone-50 space-y-3">
+      <div class="flex items-center justify-between text-xs">
+        <span class="text-stone-500 font-semibold">Total Saved in Vault:</span>
+        <span id="drawer-total-count" class="font-bold text-obsidian font-mono">0 Properties</span>
+      </div>
+      <div class="grid grid-cols-2 gap-3">
+        <button id="clear-all-favorites-btn" class="border border-stone-200 hover:border-rose-300 hover:bg-rose-50 text-stone-600 hover:text-rose-600 py-2.5 rounded-xl text-xs font-bold transition-all bg-white shadow-sm">
+          Clear Vault
+        </button>
+        <a href="#contact" id="drawer-inquire-all-btn" class="bg-emerald hover:bg-emerald-forest text-white font-bold py-2.5 rounded-xl text-xs uppercase tracking-wider text-center transition-all shadow-sm">
+          Inquire All
+        </a>
+      </div>
+    </div>
+  </div>
+  <div id="drawer-backdrop" class="fixed inset-0 z-40 bg-obsidian/40 backdrop-blur-sm hidden"></div>
+
+  <!-- ADD PROPERTY MODAL -->
+  <div id="add-property-modal" class="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 hidden overflow-y-auto bg-obsidian/60 backdrop-blur-md">
+    <div class="bg-white w-full max-w-3xl rounded-3xl overflow-hidden shadow-modal-luxury my-auto relative max-h-[92vh] flex flex-col border border-stone-200">
+      <div class="flex items-center justify-between p-5 sm:px-8 border-b border-stone-200 bg-white z-10 sticky top-0">
+        <div>
+          <h3 class="text-lg font-bold font-serif text-obsidian flex items-center gap-2">
+            <i class="fa-solid fa-plus-circle text-emerald"></i> List a New Trophy Estate
+          </h3>
+          <p class="text-xs text-stone-500 mt-0.5">Submit an architectural estate to the active AuraHomes public directory.</p>
+        </div>
+        <button id="close-add-property-modal" class="w-9 h-9 rounded-xl bg-stone-100 hover:bg-stone-200 text-stone-600 flex items-center justify-center transition-colors">
+          <i class="fa-solid fa-xmark text-sm"></i>
+        </button>
+      </div>
+
+      <form id="add-property-form" class="overflow-y-auto p-5 sm:p-8 space-y-5 flex-1 bg-white">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-xs font-bold uppercase tracking-wider text-obsidian mb-1.5">Property Title *</label>
+            <input id="new-prop-title" type="text" required placeholder="e.g. The Bel-Air Crown Sanctuary" class="w-full bg-stone-50 border border-stone-200 rounded-xl px-4 py-2.5 text-xs text-obsidian font-medium focus:outline-none focus:border-champagne-deep">
+          </div>
+          <div>
+            <label class="block text-xs font-bold uppercase tracking-wider text-obsidian mb-1.5">Listing Price (USD) *</label>
+            <input id="new-prop-price" type="number" required placeholder="e.g. 18500000" class="w-full bg-stone-50 border border-stone-200 rounded-xl px-4 py-2.5 text-xs text-obsidian font-medium focus:outline-none focus:border-champagne-deep">
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <div>
+            <label class="block text-xs font-bold uppercase tracking-wider text-obsidian mb-1.5">Status *</label>
+            <select id="new-prop-status" class="w-full bg-stone-50 border border-stone-200 rounded-xl px-4 py-2.5 text-xs text-obsidian font-semibold focus:outline-none focus:border-champagne-deep">
+              <option value="For Sale">For Sale</option>
+              <option value="For Rent">For Rent</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-xs font-bold uppercase tracking-wider text-obsidian mb-1.5">Estate Style *</label>
+            <select id="new-prop-type" class="w-full bg-stone-50 border border-stone-200 rounded-xl px-4 py-2.5 text-xs text-obsidian font-semibold focus:outline-none focus:border-champagne-deep">
+              <option value="Villa">Trophy Villa</option>
+              <option value="Penthouse">Sky Penthouse</option>
+              <option value="Waterfront">Waterfront Compound</option>
+              <option value="Architectural">Modern Architectural</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-xs font-bold uppercase tracking-wider text-obsidian mb-1.5">Location / Market *</label>
+            <input id="new-prop-location" type="text" required placeholder="e.g. Beverly Hills, CA" class="w-full bg-stone-50 border border-stone-200 rounded-xl px-4 py-2.5 text-xs text-obsidian font-medium focus:outline-none focus:border-champagne-deep">
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+          <div>
+            <label class="block text-xs font-bold uppercase tracking-wider text-obsidian mb-1.5">Bedrooms *</label>
+            <input id="new-prop-beds" type="number" min="1" max="30" value="6" required class="w-full bg-stone-50 border border-stone-200 rounded-xl px-4 py-2.5 text-xs text-obsidian font-semibold focus:outline-none focus:border-champagne-deep">
+          </div>
+          <div>
+            <label class="block text-xs font-bold uppercase tracking-wider text-obsidian mb-1.5">Bathrooms *</label>
+            <input id="new-prop-baths" type="number" min="1" max="30" step="0.5" value="8" required class="w-full bg-stone-50 border border-stone-200 rounded-xl px-4 py-2.5 text-xs text-obsidian font-semibold focus:outline-none focus:border-champagne-deep">
+          </div>
+          <div>
+            <label class="block text-xs font-bold uppercase tracking-wider text-obsidian mb-1.5">Interior Sq. Ft. *</label>
+            <input id="new-prop-sqft" type="number" value="11500" required class="w-full bg-stone-50 border border-stone-200 rounded-xl px-4 py-2.5 text-xs text-obsidian font-semibold focus:outline-none focus:border-champagne-deep">
+          </div>
+          <div>
+            <label class="block text-xs font-bold uppercase tracking-wider text-obsidian mb-1.5">Garage Spaces</label>
+            <input id="new-prop-garage" type="text" value="6 Cars" class="w-full bg-stone-50 border border-stone-200 rounded-xl px-4 py-2.5 text-xs text-obsidian font-semibold focus:outline-none focus:border-champagne-deep">
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold uppercase tracking-wider text-obsidian mb-1.5">Primary Architectural Photo URL *</label>
+          <input id="new-prop-image" type="url" required value="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1600&q=80" class="w-full bg-stone-50 border border-stone-200 rounded-xl px-4 py-2.5 text-xs text-obsidian font-semibold focus:outline-none focus:border-champagne-deep">
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold uppercase tracking-wider text-obsidian mb-1.5">Architectural Narrative / Description *</label>
+          <textarea id="new-prop-desc" rows="3" required class="w-full bg-stone-50 border border-stone-200 rounded-xl px-4 py-2.5 text-xs text-obsidian font-medium focus:outline-none focus:border-champagne-deep" placeholder="Describe the design language, imported stone, panoramic vistas, and security systems..."></textarea>
+        </div>
+
+        <div class="pt-4 border-t border-stone-100 flex items-center justify-end gap-3">
+          <button type="button" id="cancel-add-property-btn" class="px-5 py-2.5 rounded-xl text-xs font-bold text-stone-500 hover:text-obsidian transition-colors">
+            Cancel
+          </button>
+          <button type="submit" class="bg-emerald hover:bg-emerald-forest text-white font-bold px-6 py-2.5 rounded-xl text-xs uppercase tracking-wider shadow-sm transition-all">
+            Publish Estate to Directory
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ============================================================== -->
+  <!-- JAVASCRIPT: THREE.JS, SOUNDSCAPES, FORECASTER, LOGIC            -->
+  <!-- ============================================================== -->
+  <script>
+    /**
+     * AuraHomes Ultra-Luxury Architecture & WebGL Application Logic
+     */
+
+    // Property Dataset
+    const initialProperties = [
+      {
+        id: "aura-1",
+        title: "The Bel-Air Promontory Estate",
+        status: "For Sale",
+        type: "Villa",
+        price: 38500000,
+        location: "Beverly Hills, CA",
+        address: "10771 Bellagio Road, Bel-Air, CA 90077",
+        beds: 7, baths: 11, sqft: 16400, lotSize: "1.8 Acres", garage: "8-Car Gallery", yearBuilt: 2024,
+        isFeatured: true,
+        image: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=1600&q=80",
+        gallery: [
+          "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=1600&q=80",
+          "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1600&q=80",
+          "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1600&q=80"
+        ],
+        description: "An extraordinary modern masterpiece suspended above the Los Angeles basin with uninterrupted jetliner panoramic views from downtown to the Pacific Ocean. Crafted with honed Travertine marble and cantilevered zero-edge infinity pool.",
+        amenities: ["110ft Cantilevered Zero-Edge Pool", "1,500-Bottle Climate Cellar", "Dolby Atmos 24-Seat Cinema", "Rooftop Private Helipad"]
+      },
+      {
+        id: "aura-2",
+        title: "The Penthouse at 432 Park",
+        status: "For Sale",
+        type: "Penthouse",
+        price: 24900000,
+        location: "Manhattan, NY",
+        address: "432 Park Avenue, Penthouse 88, New York, NY 10022",
+        beds: 5, baths: 6.5, sqft: 8250, lotSize: "Full Floor Sky Loft", garage: "Valet Garage", yearBuilt: 2023,
+        isFeatured: true,
+        image: "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&w=1600&q=80",
+        gallery: [
+          "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&w=1600&q=80",
+          "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1600&q=80"
+        ],
+        description: "Perched 1,100 feet above Manhattan, commanding 360-degree vistas across Central Park and the Hudson River. Solid white oak floors, bookmatched Calacatta marble fireplace, and keyed high-speed elevator.",
+        amenities: ["360° Central Park Panorama", "Keyed Direct High-Speed Lift", "Tower 75ft Indoor Pool", "Michelin-Trained Dining"]
+      },
+      {
+        id: "aura-3",
+        title: "Villa Mirasol Waterfront Sanctuary",
+        status: "For Sale",
+        type: "Waterfront",
+        price: 18750000,
+        location: "Miami, FL",
+        address: "42 Star Island Drive, Miami Beach, FL 33139",
+        beds: 6, baths: 8, sqft: 11200, lotSize: "0.95 Acres Waterfront", garage: "6-Car Covered", yearBuilt: 2024,
+        isFeatured: true,
+        image: "https://images.unsplash.com/photo-1600585154526-990dced4db0d?auto=format&fit=crop&w=1600&q=80",
+        gallery: [
+          "https://images.unsplash.com/photo-1600585154526-990dced4db0d?auto=format&fit=crop&w=1600&q=80",
+          "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=1600&q=80"
+        ],
+        description: "An ultra-rare private Star Island compound featuring 150 feet of prime Biscayne Bay deep-water frontage and private yacht dock accommodating up to 130ft vessels.",
+        amenities: ["150ft Deepwater Yacht Dock", "Dual Saltwater Heated Pools", "Tropical Coconut Courtyard", "Custom Boffi Kitchen"]
+      },
+      {
+        id: "aura-4",
+        title: "Palais De Lumière Monégasque",
+        status: "For Sale",
+        type: "Penthouse",
+        price: 42000000,
+        location: "Monaco",
+        address: "Avenue Princesse Grace, Monte Carlo, Monaco 98000",
+        beds: 4, baths: 5, sqft: 6500, lotSize: "Sky Duplex", garage: "4 Underground", yearBuilt: 2024,
+        isFeatured: true,
+        image: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=1600&q=80",
+        gallery: [
+          "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=1600&q=80"
+        ],
+        description: "Overlooking Port Hercules and the Grand Prix circuit. Finished in Italian statuario marble with private rooftop heated plunge pool and direct concierge helipad access.",
+        amenities: ["Direct Grand Prix Circuit Vistas", "Rooftop Heated Plunge Solarium", "Helipad Concierge Access", "Statuario Marble Floors"]
+      },
+      {
+        id: "aura-5",
+        title: "The Palm Jumeirah Crown Villa",
+        status: "For Sale",
+        type: "Waterfront",
+        price: 29000000,
+        location: "Dubai",
+        address: "Frond G, Palm Jumeirah, Dubai, UAE",
+        beds: 7, baths: 9, sqft: 14000, lotSize: "15,800 Sq.Ft Beach", garage: "5-Car Air-Conditioned", yearBuilt: 2025,
+        isFeatured: true,
+        image: "https://images.unsplash.com/photo-1613490493576-7fde63acd811?auto=format&fit=crop&w=1600&q=80",
+        gallery: [
+          "https://images.unsplash.com/photo-1613490493576-7fde63acd811?auto=format&fit=crop&w=1600&q=80"
+        ],
+        description: "Situated on Frond G of Palm Jumeirah with private white-sand beach, infinity pool cascading into the Arabian Gulf, and breathtaking Dubai Marina views.",
+        amenities: ["Private White-Sand Beach Frontage", "Arabian Gulf Zero-Edge Basin", "Showroom Garage", "Subterranean Cinema & Spa"]
+      },
+      {
+        id: "aura-6",
+        title: "The Tribeca Cast-Iron Sky Loft",
+        status: "For Rent",
+        type: "Penthouse",
+        price: 65000,
+        location: "Manhattan, NY",
+        address: "142 Franklin Street, Tribeca, New York, NY 10013",
+        beds: 4, baths: 4.5, sqft: 5600, lotSize: "Rooftop Deck", garage: "Private Curb Garage", yearBuilt: 2022,
+        isFeatured: false,
+        image: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1600&q=80",
+        gallery: [
+          "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1600&q=80"
+        ],
+        description: "A rare historic Tribeca cast-iron building penthouse with landscaped 2,000 sq.ft private rooftop terrace, original exposed brick, and 14ft vaulted ceilings.",
+        amenities: ["2,000 Sq.Ft Landscaped Rooftop", "14ft Barrel-Vaulted Ceilings", "Wood-Burning Fireplace", "Bulthaup Kitchen"]
+      },
+      {
+        id: "aura-7",
+        title: "Villa Solaria Beverly Hills",
+        status: "For Rent",
+        type: "Villa",
+        price: 85000,
+        location: "Beverly Hills, CA",
+        address: "1230 Benedict Canyon Dr, Beverly Hills, CA 90210",
+        beds: 6, baths: 8, sqft: 10400, lotSize: "1.1 Acres Knoll", garage: "4-Car Showroom", yearBuilt: 2024,
+        isFeatured: true,
+        image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1600&q=80",
+        gallery: [
+          "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1600&q=80"
+        ],
+        description: "An ultra-private contemporary compound in Benedict Canyon available for seasonal executive lease. Features 100ft infinity pool and staff quarters.",
+        amenities: ["24/7 Gated Guard Security", "Private 100ft Heated Resort Pool", "Dolby Atmos Cinema", "Tennis Court Pavilion"]
+      }
+    ];
+
+    let properties = [...initialProperties];
+    let favorites = JSON.parse(localStorage.getItem('aurahomes_favorites') || '[]');
+    let activeCurrency = 'USD';
+    let currentSelectedProperty = null;
+
+    let filterState = {
+      status: 'All',
+      type: 'All',
+      location: 'All',
+      maxPrice: 50000000,
+      keyword: '',
+      minBeds: 'All',
+      sortBy: 'featured'
+    };
+
+    const currencyRates = {
+      USD: { symbol: '$', rate: 1.0 },
+      EUR: { symbol: '€', rate: 0.92 },
+      GBP: { symbol: '£', rate: 0.79 },
+      AED: { symbol: 'AED ', rate: 3.67 },
+      BDT: { symbol: '৳ ', rate: 122.50 }
+    };
+
+    function formatPrice(amount, isRental = false) {
+      const cur = currencyRates[activeCurrency] || currencyRates.USD;
+      const converted = Math.round(amount * cur.rate);
+      const formatted = new Intl.NumberFormat('en-US').format(converted);
+      return `${cur.symbol}${formatted}${isRental ? ' /mo' : ''}`;
+    }
+
+    function showToast(title, message, icon = 'fa-circle-check', type = 'emerald') {
+      const container = document.getElementById('toast-container');
+      const toast = document.createElement('div');
+      const borderColor = type === 'rose' ? 'border-rose-400' : type === 'amber' ? 'border-champagne' : 'border-emerald';
+      const iconColor = type === 'rose' ? 'text-rose-500' : type === 'amber' ? 'text-champagne-dark' : 'text-emerald';
+
+      toast.className = `pointer-events-auto flex items-start gap-3 p-4 rounded-2xl bg-white border ${borderColor} shadow-luxury toast-enter transition-all duration-300`;
+      toast.innerHTML = `
+        <div class="w-8 h-8 rounded-xl bg-stone-100 flex items-center justify-center shrink-0 ${iconColor} text-sm">
+          <i class="fa-solid ${icon}"></i>
+        </div>
+        <div class="flex-1 pr-2">
+          <h5 class="text-xs font-bold text-obsidian">${title}</h5>
+          <p class="text-[11px] text-stone-600 mt-0.5 leading-snug">${message}</p>
+        </div>
+        <button class="toast-close text-stone-400 hover:text-obsidian text-xs pt-0.5">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      `;
+      container.appendChild(toast);
+      toast.querySelector('.toast-close').addEventListener('click', () => toast.remove());
+      setTimeout(() => { if (toast.parentElement) toast.remove(); }, 4500);
+    }
+
+    function fireCelebration() {
+      if (typeof confetti === 'function') {
+        confetti({
+          particleCount: 70,
+          spread: 75,
+          origin: { y: 0.6 },
+          colors: ['#1B4332', '#C5A880', '#B38F5E', '#FAF8F5']
+        });
+      }
+    }
+
+    // ==============================================================
+    // PROCEDURAL WEB AUDIO API AMBIENT SOUNDSCAPE ENGINE
+    // ==============================================================
+    let audioCtx = null;
+    let isSoundscapePlaying = false;
+    let oceanGain = null, breezeGain = null;
+
+    function initSoundscape() {
+      if (!audioCtx) {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      }
+      if (audioCtx.state === 'suspended') {
+        audioCtx.resume();
+      }
+
+      if (isSoundscapePlaying) {
+        if (oceanGain) oceanGain.gain.setTargetAtTime(0, audioCtx.currentTime, 0.5);
+        if (breezeGain) breezeGain.gain.setTargetAtTime(0, audioCtx.currentTime, 0.5);
+        isSoundscapePlaying = false;
+        document.getElementById('soundscape-icon').className = 'fa-solid fa-volume-xmark text-stone-400';
+        document.getElementById('soundscape-label').textContent = 'Ambient Sound: Off';
+        showToast('Acoustic Muted', 'Procedural oceanic soundscape paused.', 'fa-volume-xmark', 'stone');
+        return;
+      }
+
+      const bufferSize = audioCtx.sampleRate * 2;
+      const noiseBuffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+      const output = noiseBuffer.getChannelData(0);
+      let b0 = 0, b1 = 0, b2 = 0;
+      for (let i = 0; i < bufferSize; i++) {
+        const white = Math.random() * 2 - 1;
+        b0 = 0.99886 * b0 + white * 0.0555179;
+        b1 = 0.99332 * b1 + white * 0.0750759;
+        b2 = 0.96900 * b2 + white * 0.1538520;
+        output[i] = (b0 + b1 + b2) * 0.08;
+      }
+
+      const whiteNoiseSource = audioCtx.createBufferSource();
+      whiteNoiseSource.buffer = noiseBuffer;
+      whiteNoiseSource.loop = true;
+
+      const waveFilter = audioCtx.createBiquadFilter();
+      waveFilter.type = 'lowpass';
+      waveFilter.frequency.setValueAtTime(320, audioCtx.currentTime);
+
+      const lfo = audioCtx.createOscillator();
+      lfo.frequency.setValueAtTime(0.12, audioCtx.currentTime);
+      const lfoGain = audioCtx.createGain();
+      lfoGain.gain.setValueAtTime(250, audioCtx.currentTime);
+      lfo.connect(lfoGain);
+      lfoGain.connect(waveFilter.frequency);
+      lfo.start();
+
+      oceanGain = audioCtx.createGain();
+      oceanGain.gain.setValueAtTime(0.18, audioCtx.currentTime);
+
+      whiteNoiseSource.connect(waveFilter);
+      waveFilter.connect(oceanGain);
+      oceanGain.connect(audioCtx.destination);
+      whiteNoiseSource.start();
+
+      isSoundscapePlaying = true;
+      document.getElementById('soundscape-icon').className = 'fa-solid fa-volume-high text-emerald';
+      document.getElementById('soundscape-label').textContent = 'Ocean Waves: Active';
+      showToast('Procedural Audio Active', 'Simulating coastal ocean surf & gentle evening breeze.', 'fa-water', 'emerald');
+    }
+
+    // ==============================================================
+    // 2. PHOTOREALISTIC 3D ARCHITECTURAL VILLA (THREE.JS r128)
+    // ==============================================================
+    let renderer, scene, camera, controls;
+    let sunLight, ambientLight, hemisphereLight;
+    let interiorLights = [];
+    let architecturalUplights = [];
+    let treeUplight;
+    let skyMesh;
+    let cameraTargetPos = new THREE.Vector3(17, 5.4, 23);
+    let cameraTargetLook = new THREE.Vector3(0, 3.6, 0.5);
+
+    // ==============================================================
+    // 4 QUICK-JUMP CAMERA PRESETS (ACCORDING TO REFERENCE)
+    // ==============================================================
+    const cameraAnglePresets = {
+      hero: {
+        pos: new THREE.Vector3(17, 5.4, 23),
+        look: new THREE.Vector3(0, 3.6, 0.5),
+        tag: "Hero Courtyard View",
+        title: "Signature L-Shaped Architecture",
+        desc: "Showcasing the sculptural central tree, warm vertical timber facade, and seamless indoor-outdoor pavilion connection.",
+        metric: "12,800 sq.ft Living • 1.2 Acre Private Grounds"
+      },
+      patio: {
+        pos: new THREE.Vector3(13, 2.6, 9),
+        look: new THREE.Vector3(8, 2.2, 2),
+        tag: "Outdoor Living",
+        title: "Covered Timber Lounge & Dining Deck",
+        desc: "Elevated natural timber platform with black steel slender columns, flush glass pocket sliders, and recessed soffit spotlights.",
+        metric: "1,450 sq.ft Covered Patio • Teak & Steel"
+      },
+      suite: {
+        pos: new THREE.Vector3(-13, 10.5, 17),
+        look: new THREE.Vector3(-6, 7.0, -1),
+        tag: "Master Sanctuary",
+        title: "Upper Charcoal Suite & Architectural Louvers",
+        desc: "Matte composite charcoal volume with precision vertical privacy fins filtering evening twilight and shielding the primary suite.",
+        metric: "2,200 sq.ft Primary Suite • Private Lounge"
+      },
+      estate: {
+        pos: new THREE.Vector3(32, 28, 36),
+        look: new THREE.Vector3(0, 4, 0),
+        tag: "Site Plan",
+        title: "Full Estate Isometric Aerial",
+        desc: "Comprehensive aerial view of the L-shaped geometry, flat rooflines with dark metal coping, and surrounding twilight grounds.",
+        metric: "Total Site Footprint • 5 Bed • 7 Bath"
+      }
+    };
+
+    // ==============================================================
+    // PROCEDURAL CANVAS TEXTURE GENERATORS (FOR SUPREME REALISM)
+    // ==============================================================
+    function createVerticalWoodTexture() {
+      const c = document.createElement('canvas');
+      c.width = 512; c.height = 512;
+      const ctx = c.getContext('2d');
+      const plankW = 16;
+      for (let x = 0; x < 512; x += plankW) {
+        const r = Math.floor(70 + (Math.sin(x * 0.08) * 14) + (Math.random() * 8));
+        const g = Math.floor(46 + (Math.sin(x * 0.08) * 10) + (Math.random() * 6));
+        const b = Math.floor(32 + (Math.sin(x * 0.08) * 7) + (Math.random() * 5));
+        ctx.fillStyle = `rgb(${r},${g},${b})`;
+        ctx.fillRect(x, 0, plankW, 512);
+
+        // Vertical grain fibers
+        ctx.fillStyle = 'rgba(25, 14, 9, 0.24)';
+        for (let k = 0; k < 6; k++) {
+          const gx = x + 1 + Math.random() * (plankW - 3);
+          ctx.fillRect(gx, 0, 1 + Math.random() * 0.8, 512);
+        }
+
+        // Dark plank seam
+        ctx.fillStyle = 'rgba(14, 8, 5, 0.8)';
+        ctx.fillRect(x + plankW - 1, 0, 1, 512);
+      }
+      const tex = new THREE.CanvasTexture(c);
+      tex.wrapS = THREE.RepeatWrapping;
+      tex.wrapT = THREE.RepeatWrapping;
+      tex.repeat.set(3, 2);
+      return tex;
+    }
+
+    function createTimberDeckTexture() {
+      const c = document.createElement('canvas');
+      c.width = 512; c.height = 512;
+      const ctx = c.getContext('2d');
+      const plankH = 18;
+      for (let y = 0; y < 512; y += plankH) {
+        const r = Math.floor(102 + (Math.cos(y * 0.06) * 16) + (Math.random() * 10));
+        const g = Math.floor(72 + (Math.cos(y * 0.06) * 11) + (Math.random() * 8));
+        const b = Math.floor(48 + (Math.cos(y * 0.06) * 8) + (Math.random() * 6));
+        ctx.fillStyle = `rgb(${r},${g},${b})`;
+        ctx.fillRect(0, y, 512, plankH);
+
+        // Deck grain fibers
+        ctx.fillStyle = 'rgba(42, 26, 16, 0.2)';
+        for (let k = 0; k < 5; k++) {
+          const gy = y + 1 + Math.random() * (plankH - 3);
+          ctx.fillRect(0, gy, 512, 1);
+        }
+
+        // Dark gap seam
+        ctx.fillStyle = 'rgba(22, 14, 9, 0.75)';
+        ctx.fillRect(0, y + plankH - 1, 512, 1);
+      }
+      const tex = new THREE.CanvasTexture(c);
+      tex.wrapS = THREE.RepeatWrapping;
+      tex.wrapT = THREE.RepeatWrapping;
+      tex.repeat.set(4, 3);
+      return tex;
+    }
+
+    function createCharcoalCompositeTexture() {
+      const c = document.createElement('canvas');
+      c.width = 512; c.height = 512;
+      const ctx = c.getContext('2d');
+      ctx.fillStyle = '#181A1F';
+      ctx.fillRect(0, 0, 512, 512);
+
+      // Architectural composite panel joint lines
+      ctx.strokeStyle = '#0E1013';
+      ctx.lineWidth = 2.5;
+      for (let x = 0; x <= 512; x += 128) {
+        ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, 512); ctx.stroke();
+      }
+      for (let y = 0; y <= 512; y += 85) {
+        ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(512, y); ctx.stroke();
+      }
+
+      // Micro surface matte noise
+      ctx.fillStyle = 'rgba(255, 255, 255, 0.025)';
+      for (let i = 0; i < 4000; i++) {
+        ctx.fillRect(Math.random() * 512, Math.random() * 512, 1, 1);
+      }
+      const tex = new THREE.CanvasTexture(c);
+      tex.wrapS = THREE.RepeatWrapping;
+      tex.wrapT = THREE.RepeatWrapping;
+      tex.repeat.set(2, 2);
+      return tex;
+    }
+
+    function createConcreteTexture() {
+      const c = document.createElement('canvas');
+      c.width = 512; c.height = 512;
+      const ctx = c.getContext('2d');
+      ctx.fillStyle = '#4B515D';
+      ctx.fillRect(0, 0, 512, 512);
+      for (let i = 0; i < 7000; i++) {
+        ctx.fillStyle = Math.random() > 0.5 ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.08)';
+        ctx.fillRect(Math.random() * 512, Math.random() * 512, 1 + Math.random(), 1 + Math.random());
+      }
+      const tex = new THREE.CanvasTexture(c);
+      tex.wrapS = THREE.RepeatWrapping;
+      tex.wrapT = THREE.RepeatWrapping;
+      return tex;
+    }
+
+    function createStonePathTexture() {
+      const c = document.createElement('canvas');
+      c.width = 512; c.height = 512;
+      const ctx = c.getContext('2d');
+      ctx.fillStyle = '#374151';
+      ctx.fillRect(0, 0, 512, 512);
+      ctx.strokeStyle = '#1F2937';
+      ctx.lineWidth = 3;
+      for (let x = 0; x < 512; x += 85) {
+        ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, 512); ctx.stroke();
+      }
+      for (let y = 0; y < 512; y += 128) {
+        ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(512, y); ctx.stroke();
+      }
+      const tex = new THREE.CanvasTexture(c);
+      tex.wrapS = THREE.RepeatWrapping;
+      tex.wrapT = THREE.RepeatWrapping;
+      return tex;
+    }
+
+    function createGrassTexture() {
+      const c = document.createElement('canvas');
+      c.width = 512; c.height = 512;
+      const ctx = c.getContext('2d');
+      ctx.fillStyle = '#244A1E';
+      ctx.fillRect(0, 0, 512, 512);
+      for (let i = 0; i < 9000; i++) {
+        const tone = Math.random();
+        if (tone < 0.35) ctx.fillStyle = 'rgba(46, 90, 39, 0.45)';
+        else if (tone < 0.7) ctx.fillStyle = 'rgba(58, 110, 48, 0.45)';
+        else ctx.fillStyle = 'rgba(26, 54, 21, 0.4)';
+        ctx.fillRect(Math.random() * 512, Math.random() * 512, 1, 2 + Math.random() * 2);
+      }
+      const tex = new THREE.CanvasTexture(c);
+      tex.wrapS = THREE.RepeatWrapping;
+      tex.wrapT = THREE.RepeatWrapping;
+      tex.repeat.set(6, 6);
+      return tex;
+    }
+
+    function createBarkTexture() {
+      const c = document.createElement('canvas');
+      c.width = 512; c.height = 512;
+      const ctx = c.getContext('2d');
+      ctx.fillStyle = '#ABA49C';
+      ctx.fillRect(0, 0, 512, 512);
+      for (let i = 0; i < 350; i++) {
+        const x = Math.random() * 512;
+        ctx.fillStyle = Math.random() > 0.5 ? 'rgba(115, 108, 102, 0.45)' : 'rgba(180, 175, 170, 0.4)';
+        ctx.fillRect(x, 0, 1 + Math.random() * 3, 512);
+      }
+      const tex = new THREE.CanvasTexture(c);
+      tex.wrapS = THREE.RepeatWrapping;
+      tex.wrapT = THREE.RepeatWrapping;
+      return tex;
+    }
+
+    // ==============================================================
+    // INITIALIZE PHOTOREALISTIC 3D VILLA SCENE
+    // ==============================================================
+    function initThreeVilla() {
+      const canvas = document.getElementById('three-villa-canvas');
+      if (!canvas) return;
+
+      const width = canvas.parentElement.clientWidth;
+      const height = canvas.parentElement.clientHeight;
+
+      scene = new THREE.Scene();
+      scene.background = new THREE.Color(0x0E1B2D);
+      scene.fog = new THREE.FogExp2(0x0E1B2D, 0.009);
+
+      camera = new THREE.PerspectiveCamera(38, width / height, 0.5, 500);
+      camera.position.set(17, 5.4, 23);
+
+      renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true, powerPreference: "high-performance" });
+      renderer.setSize(width, height);
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+      renderer.shadowMap.enabled = true;
+      renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+      renderer.toneMapping = THREE.ACESFilmicToneMapping;
+      renderer.toneMappingExposure = 1.15;
+
+      controls = new THREE.OrbitControls(camera, canvas);
+      controls.enableDamping = true;
+      controls.dampingFactor = 0.05;
+      controls.maxPolarAngle = Math.PI / 2.05; // Prevent camera clipping below terrain
+      controls.minDistance = 9;
+      controls.maxDistance = 110;
+      controls.target.set(0, 3.6, 0.5);
+
+      // ==============================================================
+      // "BLUE HOUR" TWILIGHT ATMOSPHERE & STUDIO LIGHTING
+      // ==============================================================
+      // Skydome Twilight Gradient Dome
+      const skyGeo = new THREE.SphereGeometry(220, 32, 24);
+      const skyMat = new THREE.MeshBasicMaterial({
+        color: 0x12243C,
+        side: THREE.BackSide
+      });
+      skyMesh = new THREE.Mesh(skyGeo, skyMat);
+      scene.add(skyMesh);
+
+      // Soft blue skyward & warm groundward light for natural ambient occlusion
+      hemisphereLight = new THREE.HemisphereLight(0x2E4057, 0x111115, 0.65);
+      scene.add(hemisphereLight);
+
+      ambientLight = new THREE.AmbientLight(0x1E293B, 0.4);
+      scene.add(ambientLight);
+
+      // Directional twilight sun generating smooth contact shadows
+      sunLight = new THREE.DirectionalLight(0xFDBA74, 1.25);
+      sunLight.position.set(-26, 20, 26);
+      sunLight.castShadow = true;
+      sunLight.shadow.mapSize.width = 2048;
+      sunLight.shadow.mapSize.height = 2048;
+      sunLight.shadow.camera.near = 1;
+      sunLight.shadow.camera.far = 140;
+      sunLight.shadow.camera.left = -32;
+      sunLight.shadow.camera.right = 32;
+      sunLight.shadow.camera.top = 32;
+      sunLight.shadow.camera.bottom = -32;
+      sunLight.shadow.bias = -0.0003;
+      scene.add(sunLight);
+
+      // ==============================================================
+      // HIGH-FIDELITY ARCHITECTURAL MATERIALS
+      // ==============================================================
+      const woodCladdingTex = createVerticalWoodTexture();
+      const timberDeckTex = createTimberDeckTexture();
+      const charcoalCompositeTex = createCharcoalCompositeTexture();
+      const concreteTex = createConcreteTexture();
+      const stonePathTex = createStonePathTexture();
+      const grassTex = createGrassTexture();
+      const barkTex = createBarkTexture();
+
+      // 1. Natural Vertical Timber Cladding (#5C3D2E to #3E271D)
+      const woodCladdingMat = new THREE.MeshStandardMaterial({
+        map: woodCladdingTex,
+        roughness: 0.65,
+        metalness: 0.04
+      });
+
+      // 2. Elevated Timber Deck Material
+      const timberDeckMat = new THREE.MeshStandardMaterial({
+        map: timberDeckTex,
+        roughness: 0.6,
+        metalness: 0.04
+      });
+
+      // 3. Structural Steel (Dark charcoal / matte black #181A1F)
+      const structuralSteelMat = new THREE.MeshStandardMaterial({
+        color: 0x181A1F,
+        metalness: 0.65,
+        roughness: 0.38
+      });
+
+      // 4. Upper Level Composite Panels (Matte charcoal-black)
+      const upperCompositeMat = new THREE.MeshStandardMaterial({
+        map: charcoalCompositeTex,
+        color: 0x1F2228,
+        metalness: 0.45,
+        roughness: 0.48
+      });
+
+      // 5. Highly Reflective Translucent Architectural Glass
+      const architecturalGlassMat = new THREE.MeshPhysicalMaterial({
+        color: 0xEEF6F8,
+        transparent: true,
+        opacity: 0.22,
+        roughness: 0.08,
+        transmission: 0.9,
+        clearcoat: 1.0,
+        clearcoatRoughness: 0.08,
+        reflectivity: 0.9,
+        ior: 1.5,
+        side: THREE.DoubleSide
+      });
+
+      // 6. Concrete Foundation & Steps
+      const concreteFoundationMat = new THREE.MeshStandardMaterial({
+        map: concreteTex,
+        color: 0x4B515D,
+        roughness: 0.8
+      });
+
+      // 7. Stone Walkway Pavers
+      const stonePaverMat = new THREE.MeshStandardMaterial({
+        map: stonePathTex,
+        color: 0x374151,
+        roughness: 0.75
+      });
+
+      // 8. Manicured Natural Grass
+      const lawnMat = new THREE.MeshStandardMaterial({
+        map: grassTex,
+        color: 0x2A5623,
+        roughness: 0.92
+      });
+
+      // 9. Sculptural Organic Tree Bark
+      const barkMat = new THREE.MeshStandardMaterial({
+        map: barkTex,
+        color: 0xB5B0AA,
+        roughness: 0.85
+      });
+
+      // 10. Organic Canopy Foliage Materials
+      const foliageMat1 = new THREE.MeshStandardMaterial({ color: 0x2E5A27, roughness: 0.85 });
+      const foliageMat2 = new THREE.MeshStandardMaterial({ color: 0x3D732E, roughness: 0.82 });
+      const foliageMat3 = new THREE.MeshStandardMaterial({ color: 0x1E421A, roughness: 0.88 });
+
+      // 11. Interior Warm Hardwood Flooring
+      const interiorHardwoodMat = new THREE.MeshStandardMaterial({
+        map: timberDeckTex,
+        color: 0x8C5E3C,
+        roughness: 0.4,
+        metalness: 0.1
+      });
+
+      // ==============================================================
+      // 1. GROUND PLANE & LANDSCAPED SURROUNDINGS
+      // ==============================================================
+      // Manicured Green Lawn Ground Plane
+      const lawnGround = new THREE.Mesh(new THREE.CylinderGeometry(56, 60, 2.5, 64), lawnMat);
+      lawnGround.position.y = -1.25;
+      lawnGround.receiveShadow = true;
+      scene.add(lawnGround);
+
+      // Slate Concrete Architectural Sub-Plinth
+      const subPlinth = new THREE.Mesh(new THREE.BoxGeometry(34, 0.4, 28), concreteFoundationMat);
+      subPlinth.position.set(3, -0.05, 0);
+      subPlinth.receiveShadow = true;
+      scene.add(subPlinth);
+
+      // Textured Stone Walkway / Path on the Right
+      const pathStepsGroup = new THREE.Group();
+      for (let s = 0; s < 9; s++) {
+        const step = new THREE.Mesh(new THREE.BoxGeometry(2.4, 0.12, 1.4), stonePaverMat);
+        const curveOffset = Math.sin(s * 0.45) * 1.8;
+        step.position.set(19.5 + (s * 1.4), 0.1, 7 - (s * 1.8) + curveOffset);
+        step.receiveShadow = true;
+        pathStepsGroup.add(step);
+      }
+      scene.add(pathStepsGroup);
+
+      // Low Slate Garden Planter Border & Shrubbery
+      const planterBox = new THREE.Mesh(new THREE.BoxGeometry(16, 0.5, 1.4), concreteFoundationMat);
+      planterBox.position.set(8.5, 0.25, 11);
+      planterBox.castShadow = true; planterBox.receiveShadow = true;
+      scene.add(planterBox);
+
+      const gardenShrub = new THREE.Mesh(new THREE.BoxGeometry(15.4, 0.65, 1.0), foliageMat1);
+      gardenShrub.position.set(8.5, 0.7, 11);
+      gardenShrub.castShadow = true;
+      scene.add(gardenShrub);
+
+      // Dark Dense Perimeter Foliage & Forest Backdrop Meshes (Grounds the Estate)
+      const perimeterForestGroup = new THREE.Group();
+      const forestPositions = [
+        { x: -28, z: -18, h: 14, r: 4 }, { x: -20, z: -24, h: 16, r: 4.5 },
+        { x: -10, z: -26, h: 15, r: 4 }, { x: 5, z: -27, h: 17, r: 5 },
+        { x: 18, z: -24, h: 15, r: 4.2 }, { x: 28, z: -18, h: 13, r: 3.8 },
+        { x: -30, z: -5, h: 13, r: 3.6 }, { x: -32, z: 8, h: 12, r: 3.5 },
+        { x: 30, z: -4, h: 12, r: 3.5 }, { x: 28, z: 12, h: 10, r: 3.2 }
+      ];
+      forestPositions.forEach(fp => {
+        const treeMesh = new THREE.Mesh(new THREE.ConeGeometry(fp.r, fp.h, 7), foliageMat3);
+        treeMesh.position.set(fp.x, fp.h * 0.5, fp.z);
+        treeMesh.castShadow = true;
+        perimeterForestGroup.add(treeMesh);
+      });
+      scene.add(perimeterForestGroup);
+
+      // ==============================================================
+      // 2. RIGHT WING: GROUND LEVEL PAVILION (INDOOR-OUTDOOR LOUNGE)
+      // ==============================================================
+      // A) Elevated Warm Timber-Clad Patio Platform
+      const patioPlatform = new THREE.Mesh(new THREE.BoxGeometry(19.6, 0.45, 11.2), timberDeckMat);
+      patioPlatform.position.set(8.8, 0.225, 4.6);
+      patioPlatform.castShadow = true; patioPlatform.receiveShadow = true;
+      scene.add(patioPlatform);
+
+      // Timber Patio Step Transition to Lawn
+      const patioStep = new THREE.Mesh(new THREE.BoxGeometry(20.2, 0.2, 0.9), timberDeckMat);
+      patioStep.position.set(8.8, 0.1, 10.5);
+      patioStep.receiveShadow = true;
+      scene.add(patioStep);
+
+      // B) Covered Patio Timber Soffit Ceilings
+      const patioSoffit = new THREE.Mesh(new THREE.BoxGeometry(19.2, 0.12, 10.8), woodCladdingMat);
+      patioSoffit.position.set(8.8, 4.04, 4.6);
+      scene.add(patioSoffit);
+
+      // Recessed Downlight Rings in Covered Soffit
+      const soffitLightPos = [
+        { x: 4.5, z: 6.5 }, { x: 9.0, z: 6.5 }, { x: 13.5, z: 6.5 }, { x: 17.0, z: 6.5 }
+      ];
+      soffitLightPos.forEach(lp => {
+        const fixture = new THREE.Mesh(new THREE.CylinderGeometry(0.25, 0.25, 0.05, 16), structuralSteelMat);
+        fixture.position.set(lp.x, 3.98, lp.z);
+        scene.add(fixture);
+
+        const downlight = new THREE.PointLight(0xFFA85C, 1.4, 7);
+        downlight.position.set(lp.x, 3.8, lp.z);
+        scene.add(downlight);
+        interiorLights.push(downlight);
+      });
+
+      // C) Thin Black Steel Supporting Pillars
+      const steelPillarPos = [
+        { x: 18.2, z: 9.8 }, { x: 12.2, z: 9.8 }, { x: 6.2, z: 9.8 }, { x: 18.2, z: 0.2 }
+      ];
+      steelPillarPos.forEach(sp => {
+        const col = new THREE.Mesh(new THREE.BoxGeometry(0.18, 3.85, 0.18), structuralSteelMat);
+        col.position.set(sp.x, 2.15, sp.z);
+        col.castShadow = true;
+        scene.add(col);
+      });
+
+      // Edge Steel Trims along Patio Fascia
+      const patioEdgeTrim = new THREE.Mesh(new THREE.BoxGeometry(20.0, 0.15, 0.15), structuralSteelMat);
+      patioEdgeTrim.position.set(8.8, 0.45, 10.2);
+      scene.add(patioEdgeTrim);
+
+      // D) Single-Story Pavilion Flat Roof with Dark Metal Coping
+      const pavilionRoof = new THREE.Mesh(new THREE.BoxGeometry(19.8, 0.45, 11.4), concreteFoundationMat);
+      pavilionRoof.position.set(8.8, 4.32, 4.6);
+      pavilionRoof.castShadow = true; pavilionRoof.receiveShadow = true;
+      scene.add(pavilionRoof);
+
+      const pavilionCoping = new THREE.Mesh(new THREE.BoxGeometry(20.2, 0.15, 11.8), structuralSteelMat);
+      pavilionCoping.position.set(8.8, 4.58, 4.6);
+      scene.add(pavilionCoping);
+
+      // E) Recessed Floor-to-Ceiling Glass Sliding Pocket Doors
+      // Front Sliding Glass Wall Facing Patio
+      const frontGlassWall = new THREE.Mesh(new THREE.BoxGeometry(18.2, 3.6, 0.15), architecturalGlassMat);
+      frontGlassWall.position.set(9.2, 2.25, 0.5);
+      scene.add(frontGlassWall);
+
+      // Pocket Door Sliding Frames & Black Steel Mullions
+      for (let m = 0; m <= 4; m++) {
+        const mullion = new THREE.Mesh(new THREE.BoxGeometry(0.12, 3.65, 0.2), structuralSteelMat);
+        mullion.position.set(1.5 + (m * 4.1), 2.25, 0.52);
+        mullion.castShadow = true;
+        scene.add(mullion);
+      }
+
+      // Courtyard-Facing Glass Return (Connects visually to Central Tree)
+      const courtReturnGlass = new THREE.Mesh(new THREE.BoxGeometry(0.15, 3.6, 6.2), architecturalGlassMat);
+      courtReturnGlass.position.set(0.1, 2.25, 3.6);
+      scene.add(courtReturnGlass);
+
+      // F) Fully Rendered Interior (Visible Through Glass)
+      // Interior Hardwood Floor Slab
+      const intFloor = new THREE.Mesh(new THREE.BoxGeometry(18.2, 0.1, 8.4), interiorHardwoodMat);
+      intFloor.position.set(9.2, 0.46, -3.8);
+      intFloor.receiveShadow = true;
+      scene.add(intFloor);
+
+      // Rear Interior Accent Wall in Warm Timber
+      const rearIntWall = new THREE.Mesh(new THREE.BoxGeometry(18.2, 3.6, 0.6), woodCladdingMat);
+      rearIntWall.position.set(9.2, 2.25, -7.8);
+      rearIntWall.castShadow = true; rearIntWall.receiveShadow = true;
+      scene.add(rearIntWall);
+
+      // Designer Modern Wooden Dining Table
+      const diningTableTop = new THREE.Mesh(new THREE.BoxGeometry(4.2, 0.12, 1.8), timberDeckMat);
+      diningTableTop.position.set(9.5, 1.35, -2.5);
+      diningTableTop.castShadow = true;
+      scene.add(diningTableTop);
+
+      const tableLeg1 = new THREE.Mesh(new THREE.BoxGeometry(0.15, 0.9, 1.6), structuralSteelMat);
+      tableLeg1.position.set(8.0, 0.9, -2.5);
+      scene.add(tableLeg1);
+      const tableLeg2 = new THREE.Mesh(new THREE.BoxGeometry(0.15, 0.9, 1.6), structuralSteelMat);
+      tableLeg2.position.set(11.0, 0.9, -2.5);
+      scene.add(tableLeg2);
+
+      // Dining Chairs (Set of 6)
+      const chairPos = [
+        { x: 8.5, z: -1.3 }, { x: 9.5, z: -1.3 }, { x: 10.5, z: -1.3 },
+        { x: 8.5, z: -3.7 }, { x: 9.5, z: -3.7 }, { x: 10.5, z: -3.7 }
+      ];
+      chairPos.forEach(cp => {
+        const seat = new THREE.Mesh(new THREE.BoxGeometry(0.65, 0.08, 0.65), structuralSteelMat);
+        seat.position.set(cp.x, 0.9, cp.z);
+        scene.add(seat);
+        const back = new THREE.Mesh(new THREE.BoxGeometry(0.65, 0.55, 0.06), structuralSteelMat);
+        back.position.set(cp.x, 1.2, cp.z + (cp.z > -2.5 ? 0.3 : -0.3));
+        scene.add(back);
+      });
+
+      // Floating Architectural Staircase
+      const staircaseGroup = new THREE.Group();
+      for (let st = 0; st < 8; st++) {
+        const tread = new THREE.Mesh(new THREE.BoxGeometry(1.6, 0.1, 0.5), timberDeckMat);
+        tread.position.set(2.2 + (st * 0.4), 0.7 + (st * 0.42), -6.5);
+        tread.castShadow = true;
+        staircaseGroup.add(tread);
+      }
+      scene.add(staircaseGroup);
+
+      // Outdoor Covered Patio Lounge Setting
+      const loungeTable = new THREE.Mesh(new THREE.BoxGeometry(2.4, 0.3, 1.4), timberDeckMat);
+      loungeTable.position.set(11.5, 0.6, 6.2);
+      loungeTable.castShadow = true;
+      scene.add(loungeTable);
+
+      const loungeSofa = new THREE.Mesh(new THREE.BoxGeometry(4.0, 0.6, 1.5), structuralSteelMat);
+      loungeSofa.position.set(11.5, 0.75, 4.0);
+      loungeSofa.castShadow = true;
+      scene.add(loungeSofa);
+
+      // ==============================================================
+      // 3. LEFT WING: TWO-STORY WING (TIMBER BASE + CHARCOAL LOUVER SUITE)
+      // ==============================================================
+      // A) Lower Level: Rich Dark Vertical Timber Cladding
+      const lowerWingVolume = new THREE.Mesh(new THREE.BoxGeometry(11.8, 3.8, 13.5), woodCladdingMat);
+      lowerWingVolume.position.set(-5.9, 1.9, -1.2);
+      lowerWingVolume.castShadow = true; lowerWingVolume.receiveShadow = true;
+      scene.add(lowerWingVolume);
+
+      // Inset Modern Entrance Door Portal with Black Steel Reveal
+      const doorReveal = new THREE.Mesh(new THREE.BoxGeometry(2.4, 3.2, 0.5), structuralSteelMat);
+      doorReveal.position.set(-1.6, 1.6, 5.5);
+      scene.add(doorReveal);
+
+      const entranceDoor = new THREE.Mesh(new THREE.BoxGeometry(1.8, 2.9, 0.15), woodCladdingMat);
+      entranceDoor.position.set(-1.6, 1.55, 5.7);
+      scene.add(entranceDoor);
+
+      const doorHandle = new THREE.Mesh(new THREE.BoxGeometry(0.06, 1.2, 0.08), structuralSteelMat);
+      doorHandle.position.set(-1.0, 1.55, 5.82);
+      scene.add(doorHandle);
+
+      // Glowing Horizontal Slit Window
+      const slitWindowFrame = new THREE.Mesh(new THREE.BoxGeometry(5.2, 0.55, 0.3), structuralSteelMat);
+      slitWindowFrame.position.set(-6.6, 2.5, 5.6);
+      scene.add(slitWindowFrame);
+
+      const slitGlass = new THREE.Mesh(new THREE.BoxGeometry(5.0, 0.42, 0.1), architecturalGlassMat);
+      slitGlass.position.set(-6.6, 2.5, 5.7);
+      scene.add(slitGlass);
+
+      // Entrance & Slit Interior Warm Light
+      const entranceLight = new THREE.PointLight(0xFFA85C, 2.4, 12);
+      entranceLight.position.set(-4.5, 2.5, 4.2);
+      scene.add(entranceLight);
+      interiorLights.push(entranceLight);
+
+      // B) Upper Level: Matte Charcoal-Black Composite Volume
+      const upperSuiteVolume = new THREE.Mesh(new THREE.BoxGeometry(12.6, 3.8, 14.2), upperCompositeMat);
+      upperSuiteVolume.position.set(-6.1, 5.7, -1.2);
+      upperSuiteVolume.castShadow = true; upperSuiteVolume.receiveShadow = true;
+      scene.add(upperSuiteVolume);
+
+      // Upper Floor Panoramic Windows (Recessed)
+      const upperWindow = new THREE.Mesh(new THREE.BoxGeometry(11.2, 3.2, 0.2), architecturalGlassMat);
+      upperWindow.position.set(-6.1, 5.7, 5.85);
+      scene.add(upperWindow);
+
+      // C) Distinct Vertical Architectural Privacy Louvers / Fins
+      const louversGroup = new THREE.Group();
+      for (let fin = 0; fin < 18; fin++) {
+        const louverFin = new THREE.Mesh(new THREE.BoxGeometry(0.09, 3.4, 0.52), structuralSteelMat);
+        louverFin.position.set(-11.2 + (fin * 0.65), 5.7, 6.1);
+        louverFin.castShadow = true;
+        louversGroup.add(louverFin);
+      }
+      scene.add(louversGroup);
+
+      // D) Upper Roofline: Flat Roof with Dark Metal Coping & Overlays
+      const upperRoof = new THREE.Mesh(new THREE.BoxGeometry(13.2, 0.45, 14.8), concreteFoundationMat);
+      upperRoof.position.set(-6.1, 7.82, -1.2);
+      upperRoof.castShadow = true; upperRoof.receiveShadow = true;
+      scene.add(upperRoof);
+
+      const upperCoping = new THREE.Mesh(new THREE.BoxGeometry(13.6, 0.18, 15.2), structuralSteelMat);
+      upperCoping.position.set(-6.1, 8.08, -1.2);
+      scene.add(upperCoping);
+
+      // ==============================================================
+      // 4. SIGNATURE SCULPTURAL ORGANIC TREE IN L-JUNCTION COURTYARD
+      // ==============================================================
+      const signatureTreeGroup = new THREE.Group();
+      signatureTreeGroup.position.set(-2.6, 0, 3.6);
+
+      // Natural pale-grey twisting trunk segments
+      const trunkBase = new THREE.Mesh(new THREE.CylinderGeometry(0.35, 0.52, 2.8, 14), barkMat);
+      trunkBase.position.set(0, 1.4, 0);
+      trunkBase.rotation.z = -0.08; trunkBase.rotation.x = 0.05;
+      trunkBase.castShadow = true;
+      signatureTreeGroup.add(trunkBase);
+
+      const trunkMid = new THREE.Mesh(new THREE.CylinderGeometry(0.28, 0.35, 3.0, 14), barkMat);
+      trunkMid.position.set(0.2, 3.8, -0.1);
+      trunkMid.rotation.z = 0.12; trunkMid.rotation.x = -0.06;
+      trunkMid.castShadow = true;
+      signatureTreeGroup.add(trunkMid);
+
+      // 3 Organic Branches Rising High Past the Roofline
+      const branch1 = new THREE.Mesh(new THREE.CylinderGeometry(0.16, 0.26, 4.2, 10), barkMat);
+      branch1.position.set(1.1, 6.2, 0.4);
+      branch1.rotation.z = -0.42; branch1.rotation.x = 0.2;
+      branch1.castShadow = true;
+      signatureTreeGroup.add(branch1);
+
+      const branch2 = new THREE.Mesh(new THREE.CylinderGeometry(0.14, 0.24, 4.5, 10), barkMat);
+      branch2.position.set(-0.8, 6.5, -0.3);
+      branch2.rotation.z = 0.35; branch2.rotation.x = -0.25;
+      branch2.castShadow = true;
+      signatureTreeGroup.add(branch2);
+
+      const branch3 = new THREE.Mesh(new THREE.CylinderGeometry(0.12, 0.22, 4.8, 10), barkMat);
+      branch3.position.set(0.1, 7.2, -0.2);
+      branch3.rotation.z = 0.06; branch3.rotation.x = 0.15;
+      branch3.castShadow = true;
+      signatureTreeGroup.add(branch3);
+
+      // Rich, Multi-Layered Green Leafy Canopy Clusters
+      const canopyClusters = [
+        { x: 1.8, y: 7.6, z: 0.8, r: 2.4, mat: foliageMat2 },
+        { x: -1.4, y: 8.0, z: -0.6, r: 2.6, mat: foliageMat1 },
+        { x: 0.2, y: 9.2, z: 0.2, r: 2.8, mat: foliageMat2 },
+        { x: 2.5, y: 8.6, z: 0.2, r: 2.2, mat: foliageMat1 },
+        { x: -0.8, y: 9.8, z: 0.4, r: 2.5, mat: foliageMat3 },
+        { x: 0.8, y: 10.4, z: -0.4, r: 2.2, mat: foliageMat2 }
+      ];
+      canopyClusters.forEach(cc => {
+        const foliageMesh = new THREE.Mesh(new THREE.DodecahedronGeometry(cc.r, 2), cc.mat);
+        foliageMesh.position.set(cc.x, cc.y, cc.z);
+        foliageMesh.scale.set(1.1, 0.85, 1.05);
+        foliageMesh.castShadow = true;
+        signatureTreeGroup.add(foliageMesh);
+      });
+      scene.add(signatureTreeGroup);
+
+      // Signature Tree Architectural Uplight (Cascades Up into Trunk & Canopy)
+      treeUplight = new THREE.SpotLight(0xFFA85C, 4.5, 22, Math.PI / 4.2, 0.35);
+      treeUplight.position.set(-2.6, 0.2, 3.6);
+      treeUplight.target.position.set(-2.6, 7.0, 3.6);
+      scene.add(treeUplight);
+      scene.add(treeUplight.target);
+      architecturalUplights.push(treeUplight);
+
+      // Tree Fixture Housing
+      const treeFixture = new THREE.Mesh(new THREE.CylinderGeometry(0.3, 0.3, 0.2, 16), structuralSteelMat);
+      treeFixture.position.set(-2.6, 0.1, 3.6);
+      scene.add(treeFixture);
+
+      // ==============================================================
+      // 5. INTERIOR GOLDEN LIGHTING & ARCHITECTURAL UPLIGHTS
+      // ==============================================================
+      // Main Pavilion Interior Golden Chandelier Glow (2700K Warmth #FFA85C)
+      const pavilionMainLight = new THREE.PointLight(0xFFA85C, 3.6, 24);
+      pavilionMainLight.position.set(9.5, 2.8, -1.8);
+      scene.add(pavilionMainLight);
+      interiorLights.push(pavilionMainLight);
+
+      // Upper Suite Golden Warmth (Visible through Privacy Louvers)
+      const upperSuiteLight = new THREE.PointLight(0xFFA85C, 2.9, 18);
+      upperSuiteLight.position.set(-6.1, 6.0, 1.2);
+      scene.add(upperSuiteLight);
+      interiorLights.push(upperSuiteLight);
+
+      // Architectural Facade Uplight (Washing the Vertical Timber Lower Wing)
+      const timberFacadeUplight = new THREE.PointLight(0xFDBA74, 2.0, 9);
+      timberFacadeUplight.position.set(-8.5, 0.4, 6.4);
+      scene.add(timberFacadeUplight);
+      architecturalUplights.push(timberFacadeUplight);
+
+      // Patio Deck Edge Uplight
+      const patioEdgeLight = new THREE.PointLight(0xFDBA74, 1.6, 8);
+      patioEdgeLight.position.set(18.2, 0.5, 8.5);
+      scene.add(patioEdgeLight);
+      architecturalUplights.push(patioEdgeLight);
+
+      // ==============================================================
+      // 6. ANIMATION LOOP & SMOOTH INTERACTIVE CAMERA TWEEN
+      // ==============================================================
+      let clock = new THREE.Clock();
+
+      function animate() {
+        requestAnimationFrame(animate);
+        const elapsed = clock.getElapsedTime();
+
+        // Subtle organic breathing breeze on canopy
+        if (signatureTreeGroup) {
+          signatureTreeGroup.rotation.y = Math.sin(elapsed * 0.4) * 0.015;
+        }
+
+        // Camera smooth lerp towards active quick-jump preset
+        camera.position.lerp(cameraTargetPos, 0.045);
+        controls.target.lerp(cameraTargetLook, 0.045);
+        controls.update();
+
+        renderer.render(scene, camera);
+      }
+      animate();
+
+      window.addEventListener('resize', () => {
+        const w = canvas.parentElement.clientWidth;
+        const h = canvas.parentElement.clientHeight;
+        camera.aspect = w / h;
+        camera.updateProjectionMatrix();
+        renderer.setSize(w, h);
+      });
+
+      canvas.addEventListener('mousedown', () => {
+        const hint = document.getElementById('spatial-hint');
+        if (hint) hint.style.opacity = '0';
+      });
+    }
+
+    // ==============================================================
+    // STUDIO ATMOSPHERE & TWILIGHT PRESETS
+    // ==============================================================
+    function setLightingPreset(mode) {
+      if (!scene || !sunLight) return;
+      if (mode === 'twilight') {
+        // "Blue Hour" Twilight Atmosphere (Dusk with Golden Cascading Warmth)
+        scene.background.setHex(0x0E1B2D);
+        scene.fog.color.setHex(0x0E1B2D);
+        if (skyMesh) skyMesh.material.color.setHex(0x12243C);
+        hemisphereLight.color.setHex(0x2E4057);
+        hemisphereLight.groundColor.setHex(0x111115);
+        hemisphereLight.intensity = 0.65;
+        ambientLight.color.setHex(0x1E293B);
+        ambientLight.intensity = 0.4;
+        sunLight.color.setHex(0xFDBA74);
+        sunLight.intensity = 1.25;
+        sunLight.position.set(-26, 20, 26);
+        interiorLights.forEach(l => l.intensity = 3.2);
+        architecturalUplights.forEach(l => l.intensity = 3.8);
+        document.getElementById('sun-slider').value = '19.5';
+        document.getElementById('sun-time-display').textContent = '19:30 (Twilight)';
+      } else if (mode === 'night') {
+        // Night Glow (Deep Midnight with High-Contrast Interior Warmth)
+        scene.background.setHex(0x060B14);
+        scene.fog.color.setHex(0x060B14);
+        if (skyMesh) skyMesh.material.color.setHex(0x08101E);
+        hemisphereLight.color.setHex(0x141E2D);
+        hemisphereLight.groundColor.setHex(0x080B0F);
+        hemisphereLight.intensity = 0.35;
+        ambientLight.color.setHex(0x0F172A);
+        ambientLight.intensity = 0.25;
+        sunLight.color.setHex(0x38BDF8);
+        sunLight.intensity = 0.4;
+        sunLight.position.set(-15, 30, -20);
+        interiorLights.forEach(l => l.intensity = 4.5);
+        architecturalUplights.forEach(l => l.intensity = 4.8);
+        document.getElementById('sun-slider').value = '23.0';
+        document.getElementById('sun-time-display').textContent = '23:00 (Midnight)';
+      } else if (mode === 'overcast') {
+        // Overcast Daylight (Diffuse Architectural Studio Lighting)
+        scene.background.setHex(0xCBD5E1);
+        scene.fog.color.setHex(0xCBD5E1);
+        if (skyMesh) skyMesh.material.color.setHex(0xE2E8F0);
+        hemisphereLight.color.setHex(0xE2E8F0);
+        hemisphereLight.groundColor.setHex(0x64748B);
+        hemisphereLight.intensity = 0.9;
+        ambientLight.color.setHex(0x94A3B8);
+        ambientLight.intensity = 0.65;
+        sunLight.color.setHex(0xF8FAFC);
+        sunLight.intensity = 1.6;
+        sunLight.position.set(20, 36, 22);
+        interiorLights.forEach(l => l.intensity = 1.2);
+        architecturalUplights.forEach(l => l.intensity = 0.8);
+        document.getElementById('sun-slider').value = '13.0';
+        document.getElementById('sun-time-display').textContent = '13:00 (Overcast)';
+      }
+      showToast('Atmosphere Preset', `Lighting mode switched to ${mode.toUpperCase()}.`, 'fa-moon', 'amber');
+    }
+
+    // Solar Sun-Path Simulator
+    function updateSunPath(hour) {
+      if (!sunLight) return;
+      const angle = ((hour - 6) / 18) * Math.PI;
+      const x = Math.cos(angle) * 44;
+      const y = Math.max(Math.sin(angle) * 36, 2);
+      const z = Math.sin(angle) * 24;
+      sunLight.position.set(x, y, z);
+
+      const hourInt = Math.floor(hour);
+      const min = Math.round((hour - hourInt) * 60);
+      document.getElementById('sun-time-display').textContent = `${hourInt.toString().padStart(2, '0')}:${min.toString().padStart(2, '0')}`;
+
+      if (hour >= 20 || hour <= 6.5) {
+        sunLight.intensity = 0.35;
+        scene.background.setHex(0x060B14);
+        interiorLights.forEach(l => l.intensity = 4.2);
+      } else if (hour >= 18) {
+        sunLight.intensity = 1.25;
+        scene.background.setHex(0x0E1B2D);
+        interiorLights.forEach(l => l.intensity = 3.2);
+      } else {
+        sunLight.intensity = 1.7;
+        scene.background.setHex(0xCBD5E1);
+        interiorLights.forEach(l => l.intensity = 1.2);
+      }
+    }
+
+    // Camera Quick-Jump Focus
+    function focusSpatialPin(targetKey) {
+      const preset = cameraAnglePresets[targetKey];
+      if (!preset) return;
+
+      cameraTargetPos.copy(preset.pos);
+      cameraTargetLook.copy(preset.look);
+
+      document.getElementById('spatial-card-tag').textContent = preset.tag;
+      document.getElementById('spatial-card-title').textContent = preset.title;
+      document.getElementById('spatial-card-desc').textContent = preset.desc;
+      document.getElementById('spatial-card-metric').textContent = preset.metric;
+
+      showToast('Camera Focused', preset.title, 'fa-video', 'emerald');
+    }
+
+    // ==============================================================
+    // 1. BEFORE & AFTER RENOVATION SPLIT-SCREEN SLIDER
+    // ==============================================================
+    function initRenovationSlider() {
+      const container = document.getElementById('reno-slider-container');
+      const divider = document.getElementById('reno-divider');
+      const beforeWrapper = document.getElementById('reno-before-wrapper');
+      const beforeImg = document.getElementById('reno-before-img');
+      if (!container || !divider || !beforeWrapper || !beforeImg) return;
+
+      let isDragging = false;
+
+      function updateSlider(clientX) {
+        const rect = container.getBoundingClientRect();
+        let pos = clientX - rect.left;
+        pos = Math.max(0, Math.min(pos, rect.width));
+        const pct = (pos / rect.width) * 100;
+
+        divider.style.left = `${pct}%`;
+        beforeWrapper.style.width = `${pct}%`;
+        beforeImg.style.width = `${rect.width}px`;
+      }
+
+      container.addEventListener('mousedown', (e) => {
+        isDragging = true;
+        updateSlider(e.clientX);
+      });
+      window.addEventListener('mouseup', () => { isDragging = false; });
+      window.addEventListener('mousemove', (e) => {
+        if (!isDragging) return;
+        updateSlider(e.clientX);
+      });
+
+      container.addEventListener('touchstart', (e) => {
+        isDragging = true;
+        updateSlider(e.touches[0].clientX);
+      });
+      window.addEventListener('touchend', () => { isDragging = false; });
+      window.addEventListener('touchmove', (e) => {
+        if (!isDragging) return;
+        updateSlider(e.touches[0].clientX);
+      });
+
+      function syncWidth() {
+        if (beforeImg && container) beforeImg.style.width = `${container.clientWidth}px`;
+      }
+      syncWidth();
+      window.addEventListener('resize', syncWidth);
+    }
+
+    // ==============================================================
+    // AI INVESTMENT FORECASTER
+    // ==============================================================
+    function updateForecaster() {
+      const metroSelect = document.getElementById('forecast-metro');
+      const opt = metroSelect.options[metroSelect.selectedIndex];
+      const apprecRate = parseFloat(opt.dataset.apprec) || 0.07;
+      const yieldRate = parseFloat(opt.dataset.yield) || 0.05;
+
+      const priceVal = parseFloat(document.getElementById('forecast-price-slider').value) || 25000000;
+      const years = parseInt(document.getElementById('forecast-years-slider').value, 10) || 10;
+
+      document.getElementById('forecast-price-display').textContent = formatPrice(priceVal);
+      document.getElementById('forecast-years-display').textContent = `${years} Years`;
+
+      const futureVal = priceVal * Math.pow(1 + apprecRate, years);
+      const capitalGrowth = futureVal - priceVal;
+      const cumulativeRental = priceVal * yieldRate * years * 0.85;
+      const totalGain = capitalGrowth + cumulativeRental;
+      const totalIrrPct = ((totalGain / priceVal) * 100).toFixed(1);
+
+      document.getElementById('forecast-future-val').textContent = formatPrice(Math.round(futureVal));
+      document.getElementById('forecast-irr-badge').textContent = `+${totalIrrPct}%`;
+      document.getElementById('forecast-rental-cum').textContent = formatPrice(Math.round(cumulativeRental));
+      document.getElementById('forecast-capital-growth').textContent = `+${formatPrice(Math.round(capitalGrowth))}`;
+
+      document.getElementById('bar-initial-label').textContent = formatPrice(Math.round(priceVal));
+      document.getElementById('bar-future-label').textContent = formatPrice(Math.round(futureVal));
+
+      const ratio = Math.min((futureVal / (priceVal * 3)) * 100, 100);
+      document.getElementById('bar-future-fill').style.width = `${Math.max(ratio, 40)}%`;
+    }
+
+    // ==============================================================
+    // SEARCH, MODAL & MORTGAGE LOGIC
+    // ==============================================================
+    function updatePriceSliderBounds() {
+      const slider = document.getElementById('hero-price-slider');
+      const display = document.getElementById('hero-price-display');
+      const label = document.getElementById('price-slider-label');
+      const ticks = document.getElementById('price-slider-ticks');
+
+      if (filterState.status === 'For Rent') {
+        label.textContent = 'Max Monthly Rental Budget';
+        slider.min = '5000';
+        slider.max = '100000';
+        slider.step = '2500';
+        if (filterState.maxPrice > 100000) {
+          slider.value = '100000';
+          filterState.maxPrice = 100000;
+        } else {
+          slider.value = filterState.maxPrice.toString();
+        }
+        display.textContent = formatPrice(filterState.maxPrice, true);
+        ticks.innerHTML = `
+          <span>$5k/mo</span>
+          <span>$25k/mo</span>
+          <span>$50k/mo</span>
+          <span>$100k+/mo</span>
+        `;
+      } else {
+        label.textContent = 'Max Investment Budget';
+        slider.min = '1000000';
+        slider.max = '50000000';
+        slider.step = '1000000';
+        if (filterState.maxPrice <= 100000) {
+          slider.value = '50000000';
+          filterState.maxPrice = 50000000;
+        } else {
+          slider.value = filterState.maxPrice.toString();
+        }
+        display.textContent = filterState.maxPrice >= 50000000 ? `${formatPrice(50000000)}+` : formatPrice(filterState.maxPrice);
+        ticks.innerHTML = `
+          <span>$1M</span>
+          <span>$15M</span>
+          <span>$30M</span>
+          <span>$50M+</span>
+        `;
+      }
+    }
+
+    function getFilteredProperties() {
+      return properties.filter(prop => {
+        if (filterState.status !== 'All' && prop.status !== filterState.status) return false;
+        if (filterState.type !== 'All' && prop.type !== filterState.type) return false;
+        if (filterState.location !== 'All' && !prop.location.toLowerCase().includes(filterState.location.toLowerCase())) return false;
+        if (prop.price > filterState.maxPrice) return false;
+        if (filterState.minBeds !== 'All' && prop.beds < parseInt(filterState.minBeds, 10)) return false;
+        if (filterState.keyword.trim() !== '') {
+          const q = filterState.keyword.toLowerCase();
+          const matchTitle = prop.title.toLowerCase().includes(q);
+          const matchLoc = prop.location.toLowerCase().includes(q);
+          const matchDesc = prop.description.toLowerCase().includes(q);
+          if (!matchTitle && !matchLoc && !matchDesc) return false;
+        }
+        return true;
+      }).sort((a, b) => {
+        if (filterState.sortBy === 'price-asc') return a.price - b.price;
+        if (filterState.sortBy === 'price-desc') return b.price - a.price;
+        if (filterState.sortBy === 'sqft-desc') return b.sqft - a.sqft;
+        return (b.isFeatured ? 1 : 0) - (a.isFeatured ? 1 : 0);
+      });
+    }
+
+    function renderPropertyGrid() {
+      const grid = document.getElementById('property-grid');
+      const emptyState = document.getElementById('empty-state');
+      const currentVisibleCount = document.getElementById('current-visible-count');
+      const totalCount = document.getElementById('total-count');
+      const heroMatchingCount = document.getElementById('hero-matching-count');
+      
+      const filtered = getFilteredProperties();
+      currentVisibleCount.textContent = filtered.length;
+      totalCount.textContent = properties.length;
+      if (heroMatchingCount) heroMatchingCount.textContent = filtered.length;
+
+      updateFilterChips();
+
+      if (filtered.length === 0) {
+        grid.innerHTML = '';
+        emptyState.classList.remove('hidden');
+        return;
+      }
+      emptyState.classList.add('hidden');
+
+      grid.innerHTML = filtered.map(prop => {
+        const isFav = favorites.includes(prop.id);
+        const isRental = prop.status === 'For Rent';
+        const displayPrice = formatPrice(prop.price, isRental);
+
+        return `
+          <div class="luxury-card rounded-3xl overflow-hidden group flex flex-col relative" data-id="${prop.id}">
+            <div class="relative h-64 sm:h-72 overflow-hidden cursor-pointer" onclick="openPropertyModal('${prop.id}')">
+              <img src="${prop.image}" alt="${prop.title}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+              <div class="absolute inset-0 bg-gradient-to-t from-obsidian/80 via-transparent to-black/20 pointer-events-none"></div>
+
+              <div class="absolute top-4 left-4 flex flex-wrap items-center gap-2">
+                <span class="px-3 py-1 rounded-full text-[10px] font-extrabold uppercase tracking-wider ${prop.status === 'For Rent' ? 'bg-champagne text-obsidian' : 'bg-emerald text-white'} shadow-sm">
+                  ${prop.status}
+                </span>
+                ${prop.isFeatured ? `
+                  <span class="px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-white/95 text-champagne-deep border border-champagne/30 backdrop-blur-md flex items-center gap-1 shadow-sm">
+                    <i class="fa-solid fa-crown text-[9px]"></i> Featured
+                  </span>
+                ` : ''}
+              </div>
+
+              <button onclick="toggleFavorite(event, '${prop.id}', this)" class="absolute top-4 right-4 w-9 h-9 rounded-xl ${isFav ? 'bg-rose-500 text-white' : 'bg-white/90 text-stone-500 hover:text-rose-500'} border border-stone-200/50 flex items-center justify-center backdrop-blur-md transition-all z-10 active:scale-90 shadow-sm" title="${isFav ? 'Remove from Saved' : 'Save Property'}">
+                <i class="${isFav ? 'fa-solid' : 'fa-regular'} fa-heart text-sm"></i>
+              </button>
+
+              <div class="absolute bottom-4 left-4">
+                <div class="text-xl sm:text-2xl font-black text-white font-mono tracking-tight drop-shadow-md">
+                  ${displayPrice}
+                </div>
+              </div>
+
+              <div class="absolute bottom-4 right-4">
+                <span class="text-[10px] uppercase font-bold tracking-wider px-2.5 py-1 rounded-lg bg-white/90 border border-stone-200/50 text-obsidian shadow-sm">
+                  ${prop.type}
+                </span>
+              </div>
+            </div>
+
+            <div class="p-6 flex-1 flex flex-col justify-between space-y-4 bg-white">
+              <div>
+                <div class="text-champagne-deep text-xs font-bold uppercase tracking-wider flex items-center gap-1.5 mb-1.5">
+                  <i class="fa-solid fa-location-dot text-[11px]"></i>
+                  <span>${prop.location}</span>
+                </div>
+                <h3 onclick="openPropertyModal('${prop.id}')" class="text-lg font-bold font-serif text-obsidian hover:text-emerald transition-colors cursor-pointer line-clamp-1">
+                  ${prop.title}
+                </h3>
+                <p class="text-xs text-stone-600 mt-1 line-clamp-2 leading-relaxed">
+                  ${prop.description}
+                </p>
+              </div>
+
+              <div class="pt-4 border-t border-stone-100 grid grid-cols-3 gap-2 text-center text-xs text-stone-600 font-mono">
+                <div class="bg-stone-50 py-2 rounded-xl border border-stone-100">
+                  <i class="fa-solid fa-bed text-champagne-deep mr-1 text-[11px]"></i>
+                  <span class="font-bold text-obsidian">${prop.beds}</span> <span class="text-[10px] text-stone-400">Beds</span>
+                </div>
+                <div class="bg-stone-50 py-2 rounded-xl border border-stone-100">
+                  <i class="fa-solid fa-bath text-champagne-deep mr-1 text-[11px]"></i>
+                  <span class="font-bold text-obsidian">${prop.baths}</span> <span class="text-[10px] text-stone-400">Baths</span>
+                </div>
+                <div class="bg-stone-50 py-2 rounded-xl border border-stone-100">
+                  <i class="fa-solid fa-ruler-combined text-champagne-deep mr-1 text-[11px]"></i>
+                  <span class="font-bold text-obsidian">${(prop.sqft).toLocaleString()}</span> <span class="text-[10px] text-stone-400">SqFt</span>
+                </div>
+              </div>
+
+              <div class="pt-2 flex items-center gap-2">
+                <button onclick="openPropertyModal('${prop.id}')" class="flex-1 bg-emerald hover:bg-emerald-forest text-white font-bold py-2.5 rounded-xl text-xs uppercase tracking-wider transition-all text-center shadow-sm">
+                  View Details
+                </button>
+                <button onclick="prefillCalculator(${prop.price})" class="px-3 py-2.5 bg-stone-50 hover:bg-stone-100 text-stone-600 hover:text-obsidian rounded-xl text-xs border border-stone-200 transition-colors shadow-sm" title="Model EMI in Calculator">
+                  <i class="fa-solid fa-calculator"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function updateFilterChips() {
+      const container = document.getElementById('filter-chips-container');
+      const chipsWrapper = document.getElementById('active-filter-chips');
+      let chipsHtml = '';
+
+      if (filterState.status !== 'All') {
+        chipsHtml += `<span class="bg-stone-100 text-obsidian border border-stone-200 text-xs px-2.5 py-1 rounded-lg flex items-center gap-1.5 font-medium">Status: ${filterState.status} <i class="fa-solid fa-xmark cursor-pointer" onclick="removeFilter('status')"></i></span>`;
+      }
+      if (filterState.type !== 'All') {
+        chipsHtml += `<span class="bg-stone-100 text-obsidian border border-stone-200 text-xs px-2.5 py-1 rounded-lg flex items-center gap-1.5 font-medium">Type: ${filterState.type} <i class="fa-solid fa-xmark cursor-pointer" onclick="removeFilter('type')"></i></span>`;
+      }
+      if (filterState.location !== 'All') {
+        chipsHtml += `<span class="bg-stone-100 text-obsidian border border-stone-200 text-xs px-2.5 py-1 rounded-lg flex items-center gap-1.5 font-medium">Location: ${filterState.location} <i class="fa-solid fa-xmark cursor-pointer" onclick="removeFilter('location')"></i></span>`;
+      }
+      if (filterState.maxPrice < 50000000) {
+        chipsHtml += `<span class="bg-stone-100 text-obsidian border border-stone-200 text-xs px-2.5 py-1 rounded-lg flex items-center gap-1.5 font-medium">Max: ${formatPrice(filterState.maxPrice, filterState.status === 'For Rent')} <i class="fa-solid fa-xmark cursor-pointer" onclick="removeFilter('maxPrice')"></i></span>`;
+      }
+
+      if (chipsHtml) {
+        container.innerHTML = chipsHtml;
+        chipsWrapper.classList.remove('hidden');
+      } else {
+        chipsWrapper.classList.add('hidden');
+      }
+    }
+
+    function removeFilter(type) {
+      if (type === 'status') {
+        filterState.status = 'All';
+        document.querySelectorAll('.hero-status-tab').forEach(b => {
+          b.className = b.dataset.status === 'All' ? 'hero-status-tab active px-5 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider transition-all bg-emerald text-white shadow-sm' : 'hero-status-tab px-5 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider transition-all bg-stone-100 text-obsidian hover:bg-stone-200';
+        });
+        updatePriceSliderBounds();
+      } else if (type === 'type') {
+        filterState.type = 'All';
+        document.getElementById('hero-type-filter').value = 'All';
+      } else if (type === 'location') {
+        filterState.location = 'All';
+        document.getElementById('hero-location-filter').value = 'All';
+      } else if (type === 'maxPrice') {
+        filterState.maxPrice = filterState.status === 'For Rent' ? 100000 : 50000000;
+        updatePriceSliderBounds();
+      }
+      renderPropertyGrid();
+    }
+
+    function resetAllFilters() {
+      filterState = { status: 'All', type: 'All', location: 'All', maxPrice: 50000000, keyword: '', minBeds: 'All', sortBy: 'featured' };
+      document.getElementById('hero-type-filter').value = 'All';
+      document.getElementById('hero-location-filter').value = 'All';
+      document.getElementById('hero-keyword-input').value = '';
+      updatePriceSliderBounds();
+      renderPropertyGrid();
+      showToast('Filters Reset', 'All prime properties displayed.', 'fa-rotate-left');
+    }
+
+    function toggleFavorite(e, propId, buttonEl) {
+      if (e) e.stopPropagation();
+      const prop = properties.find(p => p.id === propId);
+      if (!prop) return;
+
+      const idx = favorites.indexOf(propId);
+      if (idx === -1) {
+        favorites.push(propId);
+        showToast('Saved to Private Vault', `"${prop.title}" bookmarked.`, 'fa-heart', 'rose');
+        if (buttonEl) {
+          buttonEl.classList.add('heart-burst');
+          setTimeout(() => buttonEl.classList.remove('heart-burst'), 500);
+        }
+      } else {
+        favorites.splice(idx, 1);
+        showToast('Removed from Vault', `"${prop.title}" removed.`, 'fa-heart-circle-minus', 'stone');
+      }
+
+      localStorage.setItem('aurahomes_favorites', JSON.stringify(favorites));
+      updateFavoritesUI();
+      renderPropertyGrid();
+      if (currentSelectedProperty && currentSelectedProperty.id === propId) {
+        updateModalFavoriteBtn(favorites.includes(propId));
+      }
+    }
+
+    function updateFavoritesUI() {
+      const badge = document.getElementById('favorites-badge');
+      const drawerCount = document.getElementById('drawer-total-count');
+      const favList = document.getElementById('favorites-list');
+
+      badge.textContent = favorites.length;
+      badge.classList.add('badge-bounce');
+      setTimeout(() => badge.classList.remove('badge-bounce'), 400);
+
+      drawerCount.textContent = `${favorites.length} Properties`;
+
+      if (favorites.length === 0) {
+        favList.innerHTML = `
+          <div class="text-center py-12 text-stone-400">
+            <i class="fa-regular fa-heart text-3xl mb-3 text-stone-300 block"></i>
+            <p class="text-xs font-semibold text-stone-600">No properties in your private vault.</p>
+          </div>
+        `;
+        return;
+      }
+
+      const favProps = properties.filter(p => favorites.includes(p.id));
+      favList.innerHTML = favProps.map(p => `
+        <div class="bg-stone-50 rounded-2xl p-3 border border-stone-200 flex gap-3 items-center group shadow-sm">
+          <img src="${p.image}" alt="${p.title}" class="w-16 h-16 rounded-xl object-cover cursor-pointer" onclick="openPropertyModal('${p.id}')">
+          <div class="flex-1 min-w-0 cursor-pointer" onclick="openPropertyModal('${p.id}')">
+            <h4 class="text-xs font-bold text-obsidian group-hover:text-emerald truncate">${p.title}</h4>
+            <div class="text-emerald font-mono font-bold text-xs mt-0.5">${formatPrice(p.price, p.status === 'For Rent')}</div>
+          </div>
+          <button onclick="toggleFavorite(event, '${p.id}', null)" class="text-stone-400 hover:text-rose-500 p-2">
+            <i class="fa-solid fa-trash text-xs"></i>
+          </button>
+        </div>
+      `).join('');
+    }
+
+    function openPropertyModal(propId) {
+      const prop = properties.find(p => p.id === propId);
+      if (!prop) return;
+
+      currentSelectedProperty = prop;
+      const modal = document.getElementById('property-modal');
+
+      document.getElementById('modal-status-badge').textContent = prop.status;
+      document.getElementById('modal-type-badge').textContent = prop.type;
+      document.getElementById('modal-property-location').textContent = prop.address || prop.location;
+      document.getElementById('modal-property-title').textContent = prop.title;
+      document.getElementById('modal-property-price').textContent = formatPrice(prop.price, prop.status === 'For Rent');
+      document.getElementById('modal-property-desc').textContent = prop.description;
+
+      document.getElementById('modal-spec-beds').textContent = prop.beds;
+      document.getElementById('modal-spec-baths').textContent = prop.baths;
+      document.getElementById('modal-spec-sqft').textContent = `${(prop.sqft).toLocaleString()} ft²`;
+      document.getElementById('modal-spec-lot').textContent = prop.lotSize || 'Private Lot';
+      document.getElementById('modal-spec-garage').textContent = prop.garage || '4-Car Showroom';
+      document.getElementById('modal-spec-year').textContent = prop.yearBuilt || '2024';
+
+      document.getElementById('modal-gallery-main').src = prop.image;
+      const thumbsContainer = document.getElementById('modal-thumbnails');
+      const galleryList = prop.gallery && prop.gallery.length > 0 ? prop.gallery : [prop.image];
+      thumbsContainer.innerHTML = galleryList.map((imgUrl, i) => `
+        <div class="h-16 sm:h-20 rounded-xl overflow-hidden border ${i === 0 ? 'border-emerald' : 'border-stone-200'} cursor-pointer modal-thumb" onclick="document.getElementById('modal-gallery-main').src='${imgUrl}'">
+          <img src="${imgUrl}" alt="Gallery ${i}" class="w-full h-full object-cover">
+        </div>
+      `).join('');
+
+      const amenitiesContainer = document.getElementById('modal-amenities-list');
+      amenitiesContainer.innerHTML = prop.amenities.map(a => `
+        <div class="flex items-center gap-2 p-2 rounded-xl bg-stone-50 border border-stone-200 text-xs text-stone-700 font-medium">
+          <i class="fa-solid fa-check text-emerald text-xs"></i>
+          <span>${a}</span>
+        </div>
+      `).join('');
+
+      updateModalFavoriteBtn(favorites.includes(prop.id));
+      switchModalTab('gallery');
+      modal.classList.remove('hidden');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function switchModalTab(tab) {
+      const gBtn = document.getElementById('modal-tab-gallery');
+      const fBtn = document.getElementById('modal-tab-floorplan');
+      const gView = document.getElementById('modal-view-gallery');
+      const fView = document.getElementById('modal-view-floorplan');
+
+      if (tab === 'gallery') {
+        gBtn.className = 'px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-wider bg-emerald text-white shadow-sm flex items-center gap-2';
+        fBtn.className = 'px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-wider bg-stone-100 text-stone-600 hover:bg-stone-200 flex items-center gap-2';
+        gView.classList.remove('hidden');
+        fView.classList.add('hidden');
+      } else {
+        fBtn.className = 'px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-wider bg-emerald text-white shadow-sm flex items-center gap-2';
+        gBtn.className = 'px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-wider bg-stone-100 text-stone-600 hover:bg-stone-200 flex items-center gap-2';
+        fView.classList.remove('hidden');
+        gView.classList.add('hidden');
+      }
+    }
+
+    function selectRoomHotspot(name, specs) {
+      document.getElementById('inspector-room-name').textContent = name;
+      document.getElementById('inspector-room-specs').textContent = specs;
+      showToast('Space Inspected', name, 'fa-compass-drafting', 'amber');
+    }
+
+    function updateModalFavoriteBtn(isFav) {
+      const btn = document.getElementById('modal-favorite-toggle');
+      btn.innerHTML = `<i class="${isFav ? 'fa-solid text-rose-500' : 'fa-regular text-stone-400'} fa-heart"></i>`;
+    }
+
+    function closePropertyModal() {
+      document.getElementById('property-modal').classList.add('hidden');
+      document.body.style.overflow = '';
+      currentSelectedProperty = null;
+    }
+
+    // Mortgage / EMI Math Synced with Currency
+    let calcState = {
+      priceUSD: 12850000,
+      downPercent: 20,
+      termYears: 30,
+      ratePercent: 6.25,
+      taxPercent: 1.2
+    };
+
+    function updateMortgageCalculations() {
+      const cur = currencyRates[activeCurrency] || currencyRates.USD;
+      const priceInCurrency = Math.round(calcState.priceUSD * cur.rate);
+      const downAmountInCurrency = (priceInCurrency * calcState.downPercent) / 100;
+      const loanAmountInCurrency = priceInCurrency - downAmountInCurrency;
+
+      const monthlyRate = (calcState.ratePercent / 100) / 12;
+      const numberOfMonths = calcState.termYears * 12;
+
+      let monthlyPI = 0;
+      if (monthlyRate > 0) {
+        monthlyPI = loanAmountInCurrency * (monthlyRate * Math.pow(1 + monthlyRate, numberOfMonths)) / (Math.pow(1 + monthlyRate, numberOfMonths) - 1);
+      } else {
+        monthlyPI = loanAmountInCurrency / numberOfMonths;
+      }
+
+      const monthlyTax = (priceInCurrency * (calcState.taxPercent / 100)) / 12;
+      const monthlyOther = 3700 * cur.rate;
+      const totalMonthly = monthlyPI + monthlyTax + monthlyOther;
+      const totalInterest = (monthlyPI * numberOfMonths) - loanAmountInCurrency;
+
+      document.getElementById('calc-currency-prefix').textContent = cur.symbol.trim();
+      document.getElementById('calc-price-input').value = new Intl.NumberFormat('en-US').format(priceInCurrency);
+      document.getElementById('calc-down-amount-display').textContent = `${cur.symbol}${new Intl.NumberFormat('en-US').format(Math.round(downAmountInCurrency))}`;
+      document.getElementById('calc-down-percent-badge').textContent = `${calcState.downPercent}%`;
+      document.getElementById('calc-total-monthly').textContent = `${cur.symbol}${new Intl.NumberFormat('en-US').format(Math.round(totalMonthly))}`;
+
+      document.getElementById('breakdown-pi').textContent = `${cur.symbol}${new Intl.NumberFormat('en-US').format(Math.round(monthlyPI))} /mo`;
+      document.getElementById('breakdown-tax').textContent = `${cur.symbol}${new Intl.NumberFormat('en-US').format(Math.round(monthlyTax))} /mo`;
+      document.getElementById('breakdown-insurance').textContent = `${cur.symbol}${new Intl.NumberFormat('en-US').format(Math.round(monthlyOther))} /mo`;
+
+      document.getElementById('summary-loan-amount').textContent = `${cur.symbol}${new Intl.NumberFormat('en-US').format(Math.round(loanAmountInCurrency))}`;
+      document.getElementById('summary-total-interest').textContent = `${cur.symbol}${new Intl.NumberFormat('en-US').format(Math.round(totalInterest))}`;
+
+      document.getElementById('calc-slider-min').textContent = `${cur.symbol}${Math.round(1 * cur.rate)}M`;
+      document.getElementById('calc-slider-mid1').textContent = `${cur.symbol}${Math.round(20 * cur.rate)}M`;
+      document.getElementById('calc-slider-mid2').textContent = `${cur.symbol}${Math.round(40 * cur.rate)}M`;
+      document.getElementById('calc-slider-max').textContent = `${cur.symbol}${Math.round(60 * cur.rate)}M`;
+
+      document.querySelectorAll('.calc-preset-btn').forEach(btn => {
+        const p = parseInt(btn.dataset.price, 10);
+        const disp = btn.querySelector('.calc-preset-display');
+        if (disp) {
+          const inCur = p * cur.rate;
+          disp.textContent = inCur >= 1000000 ? `${cur.symbol}${(inCur / 1000000).toFixed(2)}M` : `${cur.symbol}${Math.round(inCur).toLocaleString()}`;
+        }
+      });
+
+      const circumference = 2 * Math.PI * 40;
+      const piRatio = monthlyPI / totalMonthly;
+      const taxRatio = monthlyTax / totalMonthly;
+      const otherRatio = monthlyOther / totalMonthly;
+
+      const donutPI = document.getElementById('donut-principal');
+      const donutTax = document.getElementById('donut-tax');
+      const donutOther = document.getElementById('donut-other');
+
+      const piLength = circumference * piRatio;
+      const taxLength = circumference * taxRatio;
+      const otherLength = circumference * otherRatio;
+
+      donutPI.style.strokeDasharray = `${piLength} ${circumference - piLength}`;
+      donutPI.style.strokeDashoffset = `0`;
+      donutTax.style.strokeDasharray = `${taxLength} ${circumference - taxLength}`;
+      donutTax.style.strokeDashoffset = `-${piLength}`;
+      donutOther.style.strokeDasharray = `${otherLength} ${circumference - otherLength}`;
+      donutOther.style.strokeDashoffset = `-${piLength + taxLength}`;
+    }
+
+    function prefillCalculator(priceUSD) {
+      calcState.priceUSD = priceUSD;
+      document.getElementById('calc-price-slider').value = priceUSD;
+      updateMortgageCalculations();
+      document.getElementById('calculator').scrollIntoView({ behavior: 'smooth' });
+      showToast('Calculator Prefilled', `Financing loaded for ${formatPrice(priceUSD)} estate.`, 'fa-calculator');
+    }
+
+    // ==============================================================
+    // EVENT LISTENERS INITIALIZATION
+    // ==============================================================
+    document.addEventListener('DOMContentLoaded', () => {
+      renderPropertyGrid();
+      updateFavoritesUI();
+      updatePriceSliderBounds();
+      updateMortgageCalculations();
+      updateForecaster();
+      initThreeVilla();
+      initRenovationSlider();
+
+      // Soundscape Toggle
+      document.getElementById('soundscape-toggle-btn').addEventListener('click', initSoundscape);
+
+      // Global Currency Switcher
+      document.getElementById('currency-selector').addEventListener('change', (e) => {
+        activeCurrency = e.target.value;
+        renderPropertyGrid();
+        updatePriceSliderBounds();
+        updateMortgageCalculations();
+        updateForecaster();
+        if (currentSelectedProperty) {
+          document.getElementById('modal-property-price').textContent = formatPrice(currentSelectedProperty.price, currentSelectedProperty.status === 'For Rent');
+        }
+        showToast('Currency Synchronized', `Platform updated to ${activeCurrency}.`, 'fa-coins', 'amber');
+      });
+
+      // 3D Lighting Presets
+      document.querySelectorAll('.tw-light-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          document.querySelectorAll('.tw-light-btn').forEach(b => b.className = 'tw-light-btn px-2.5 py-1.5 rounded-xl text-[11px] font-semibold bg-white/10 text-stone-300 hover:text-white transition-all text-center');
+          btn.className = 'tw-light-btn active px-2.5 py-1.5 rounded-xl text-[11px] font-bold bg-champagne-deep text-obsidian shadow-sm transition-all text-center';
+          setLightingPreset(btn.dataset.mode);
+        });
+      });
+
+      // Sun-Path Slider
+      document.getElementById('sun-slider').addEventListener('input', (e) => {
+        updateSunPath(parseFloat(e.target.value));
+      });
+
+      // Spatial Camera Angle Presets
+      document.querySelectorAll('.spatial-pin-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          document.querySelectorAll('.spatial-pin-btn').forEach(b => b.className = 'spatial-pin-btn px-3 py-1.5 rounded-xl text-xs font-semibold bg-white/10 text-stone-300 hover:text-white transition-all');
+          btn.className = 'spatial-pin-btn active px-3 py-1.5 rounded-xl text-xs font-bold bg-champagne-deep text-obsidian shadow-sm transition-all';
+          focusSpatialPin(btn.dataset.target);
+        });
+      });
+
+      // Forecaster Sliders
+      document.getElementById('forecast-metro').addEventListener('change', updateForecaster);
+      document.getElementById('forecast-price-slider').addEventListener('input', updateForecaster);
+      document.getElementById('forecast-years-slider').addEventListener('input', updateForecaster);
+
+      // Hero Tabs
+      document.querySelectorAll('.hero-status-tab').forEach(btn => {
+        btn.addEventListener('click', () => {
+          document.querySelectorAll('.hero-status-tab').forEach(b => b.className = 'hero-status-tab px-5 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider transition-all bg-stone-100 text-obsidian hover:bg-stone-200');
+          btn.className = 'hero-status-tab active px-5 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider transition-all bg-emerald text-white shadow-sm';
+          filterState.status = btn.dataset.status;
+          updatePriceSliderBounds();
+          renderPropertyGrid();
+        });
+      });
+
+      document.getElementById('hero-type-filter').addEventListener('change', (e) => {
+        filterState.type = e.target.value; renderPropertyGrid();
+      });
+      document.getElementById('hero-location-filter').addEventListener('change', (e) => {
+        filterState.location = e.target.value; renderPropertyGrid();
+      });
+      document.getElementById('hero-price-slider').addEventListener('input', (e) => {
+        const val = parseInt(e.target.value, 10);
+        filterState.maxPrice = val;
+        document.getElementById('hero-price-display').textContent = formatPrice(val, filterState.status === 'For Rent');
+        renderPropertyGrid();
+      });
+      document.getElementById('hero-keyword-input').addEventListener('input', (e) => {
+        filterState.keyword = e.target.value; renderPropertyGrid();
+      });
+      document.getElementById('hero-reset-btn').addEventListener('click', resetAllFilters);
+      document.getElementById('reset-empty-filters-btn').addEventListener('click', resetAllFilters);
+      document.getElementById('clear-all-chips-btn').addEventListener('click', resetAllFilters);
+
+      document.querySelectorAll('.bed-filter-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          document.querySelectorAll('.bed-filter-btn').forEach(b => b.className = 'bed-filter-btn px-3 py-1.5 rounded-lg font-semibold text-stone-600 hover:text-obsidian transition-all');
+          btn.className = 'bed-filter-btn active px-3 py-1.5 rounded-lg font-bold text-white bg-emerald transition-all shadow-sm';
+          filterState.minBeds = btn.dataset.beds;
+          renderPropertyGrid();
+        });
+      });
+
+      document.getElementById('property-sort-by').addEventListener('change', (e) => {
+        filterState.sortBy = e.target.value; renderPropertyGrid();
+      });
+
+      // Modal Details
+      document.getElementById('close-property-modal').addEventListener('click', closePropertyModal);
+      document.getElementById('modal-tab-gallery').addEventListener('click', () => switchModalTab('gallery'));
+      document.getElementById('modal-tab-floorplan').addEventListener('click', () => switchModalTab('floorplan'));
+      document.getElementById('modal-favorite-toggle').addEventListener('click', () => {
+        if (currentSelectedProperty) toggleFavorite(null, currentSelectedProperty.id, document.getElementById('modal-favorite-toggle'));
+      });
+      document.getElementById('modal-booking-form').addEventListener('submit', (e) => {
+        e.preventDefault();
+        fireCelebration();
+        showToast('VIP Walkthrough Confirmed', 'Reservation transmitted to managing partner.', 'fa-calendar-check', 'emerald');
+        setTimeout(closePropertyModal, 1200);
+      });
+
+      // Favorites Drawer
+      const favDrawer = document.getElementById('favorites-drawer');
+      const drawerBackdrop = document.getElementById('drawer-backdrop');
+      document.getElementById('favorites-btn').addEventListener('click', () => {
+        favDrawer.classList.remove('translate-x-full'); drawerBackdrop.classList.remove('hidden');
+      });
+      document.getElementById('close-favorites-drawer').addEventListener('click', () => {
+        favDrawer.classList.add('translate-x-full'); drawerBackdrop.classList.add('hidden');
+      });
+      drawerBackdrop.addEventListener('click', () => {
+        favDrawer.classList.add('translate-x-full'); drawerBackdrop.classList.add('hidden');
+      });
+      document.getElementById('clear-all-favorites-btn').addEventListener('click', () => {
+        favorites = []; localStorage.removeItem('aurahomes_favorites');
+        updateFavoritesUI(); renderPropertyGrid();
+      });
+
+      // Add Property Modal
+      const addModal = document.getElementById('add-property-modal');
+      document.getElementById('open-add-property-modal-btn').addEventListener('click', () => addModal.classList.remove('hidden'));
+      document.getElementById('close-add-property-modal').addEventListener('click', () => addModal.classList.add('hidden'));
+      document.getElementById('cancel-add-property-btn').addEventListener('click', () => addModal.classList.add('hidden'));
+      document.getElementById('add-property-form').addEventListener('submit', (e) => {
+        e.preventDefault();
+        const title = document.getElementById('new-prop-title').value.trim();
+        const price = parseFloat(document.getElementById('new-prop-price').value);
+        const status = document.getElementById('new-prop-status').value;
+        const type = document.getElementById('new-prop-type').value;
+        const location = document.getElementById('new-prop-location').value.trim();
+        const beds = parseInt(document.getElementById('new-prop-beds').value, 10);
+        const baths = parseFloat(document.getElementById('new-prop-baths').value);
+        const sqft = parseInt(document.getElementById('new-prop-sqft').value, 10);
+        const image = document.getElementById('new-prop-image').value.trim();
+        const desc = document.getElementById('new-prop-desc').value.trim();
+
+        properties.unshift({
+          id: `aura-${Date.now()}`, title, status, type, price, location, beds, baths, sqft, image,
+          gallery: [image], description: desc, amenities: ["Smart Automation", "Zero-Edge Heated Pool"], isFeatured: true
+        });
+        addModal.classList.add('hidden');
+        e.target.reset();
+        renderPropertyGrid();
+        fireCelebration();
+        showToast('Estate Listed', `"${title}" published to global directory!`, 'fa-circle-check', 'emerald');
+      });
+
+      // Calculator Sliders
+      document.getElementById('calc-price-slider').addEventListener('input', (e) => {
+        calcState.priceUSD = parseInt(e.target.value, 10);
+        updateMortgageCalculations();
+      });
+      document.getElementById('calc-price-input').addEventListener('change', (e) => {
+        const cur = currencyRates[activeCurrency] || currencyRates.USD;
+        calcState.priceUSD = Math.round((parseInt(e.target.value.replace(/[^0-9]/g, ''), 10) || 1000000) / cur.rate);
+        updateMortgageCalculations();
+      });
+      document.getElementById('calc-down-slider').addEventListener('input', (e) => {
+        calcState.downPercent = parseInt(e.target.value, 10);
+        updateMortgageCalculations();
+      });
+      document.getElementById('calc-rate-slider').addEventListener('input', (e) => {
+        calcState.ratePercent = parseFloat(e.target.value);
+        document.getElementById('calc-rate-display').textContent = `${calcState.ratePercent.toFixed(2)}%`;
+        updateMortgageCalculations();
+      });
+      document.querySelectorAll('.calc-term-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          document.querySelectorAll('.calc-term-btn').forEach(b => b.className = 'calc-term-btn py-2 text-xs font-bold rounded-xl border border-stone-200 bg-stone-50 text-stone-600 hover:text-obsidian transition-all');
+          btn.className = 'calc-term-btn active py-2 text-xs font-bold rounded-xl border border-emerald bg-emerald text-white shadow-sm transition-all';
+          calcState.termYears = parseInt(btn.dataset.term, 10);
+          updateMortgageCalculations();
+        });
+      });
+      document.querySelectorAll('.calc-preset-btn').forEach(btn => {
+        btn.addEventListener('click', () => prefillCalculator(parseInt(btn.dataset.price, 10)));
+      });
+
+      // Contact Form
+      document.getElementById('lead-capture-form').addEventListener('submit', (e) => {
+        e.preventDefault();
+        fireCelebration();
+        showToast('Advisory Request Transmitted', 'A private managing partner will contact you under strict NDA protocol.', 'fa-shield-halved', 'emerald');
+        e.target.reset();
+      });
+
+      // Mobile Menu Toggle
+      document.getElementById('mobile-menu-toggle').addEventListener('click', () => {
+        document.getElementById('mobile-nav-menu').classList.toggle('hidden');
+      });
+      document.querySelectorAll('.mobile-nav-link').forEach(link => {
+        link.addEventListener('click', () => document.getElementById('mobile-nav-menu').classList.add('hidden'));
+      });
+    });
+  </script>
+</body>
+</html>
